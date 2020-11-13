@@ -20,7 +20,7 @@
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:title" content="Tadpole Finance - Staking">
-	<meta property="twitter:description" content="Join Genesis Mining Program to get the distribution of 200,000 TAD (20% of supply)">
+	<meta property="twitter:description" content="Join Genesis Mining Program to get the distribution of 200,000 TAD (20% of supplies)">
 	<meta property="twitter:image" content="assets/images/tadpole-poster-new.jpg">
 
 
@@ -45,7 +45,7 @@
 	<script src="assets/libs/magnific-popup/jquery.magnific-popup.min.js"></script>
 	<script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
 	
-	<script src="assets/js/createjs-2015.11.26.min.js"></script>
+	<script src="assets/js/createjs-2020.11.26.min.js"></script>
 	<script src="assets/js/fish-animation.js?3"></script>
 	
 	
@@ -159,7 +159,7 @@
 											<div class="mb-3">
 												<div class="col-12 pl-0 pr-0">
 													<select class="custom-select" id="locked_period">
-														<option value="0">Not Locked, 1x Reward</option>
+														<option value="0">Unlocked, 1x Reward</option>
 														<option value="30">Locked for 30 days, 2x Reward</option>
 														<option value="90">Locked for 90 days, 3x Reward</option>
 														<option value="180">Locked for 180 days, 4x Reward</option>
@@ -169,7 +169,7 @@
 											</div>
 											<div class="form-group mb-0">
 												<div class="float-right mt-3 text-muted small">
-													<a href="#" onclick="addLpToMetamask(); return false;">add TAD/ETH LP to Metamask</a>
+													<a href="#" onclick="addLPToMetamask(); return false;">add TAD/ETH LP to Metamask</a>
 												</div>
 												<div>
 													<button type="submit" class="btn btn-success waves-effect waves-light mr-1 go-stake" onclick="uniswap_prepare_stake(); return false;">
@@ -204,14 +204,14 @@
 											<span class="float-right">Available: ~<span class="tad-to-claim"><i class='bx bx-loader-circle bx-spin'></i></span> LP</span>
 											<label for="name">Amount to Claim</label>
 											<div class="input-group mb-3">
-												<input type="text" class="form-control" id="val_tad_avail" placeholder="" disabled="disabled" value="0">
+												<input type="text" class="form-control" id="value_tad_available" placeholder="" disabled="disabled" value="0">
 												<div class="input-group-append">
 													<span class="input-group-text">LP</span>
 												</div>
 											</div>
 											<div class="form-group mb-0">
 												<div class="float-right mt-3 text-muted small">
-													<a href="#" onclick="addTadToMetamask(); return false;">add TAD to Metamask</a>
+													<a href="#" onclick="addTADToMetamask(); return false;">add TAD to Metamask</a>
 												</div>
 												<div>
 													<button type="submit" class="btn btn-info waves-effect waves-light mr-1 go-claim" onclick="uniswap_go_claim(); return false;">
@@ -238,11 +238,11 @@
 									<h4 class="card-title">Staking APY Calculator</h4>
 									<p>APY is the rate of return of an investment product annualized. The calculation below references the current APY calculated with the latest TAD and ETH prices at Uniswap. The calculation subjects to change from time to time.</p>
 									<p class="card-title-desc">
-										TAD price: $<span class="tadPrice">?</span><br />
-										ETH price: $<span class="ethPrice">?</span><br />
-										<br />
-										APY formula: {TAD price} x {genesis distribution} / ( {TEN STAKED} x {TEN price} ) x 12 x 100%<br />
-										<b>APY = <span class="apyGenesis">?</span>%</b>
+										TAD price: $<span class="TADPrice">?</span><br />
+										ETH price: $<span class="ETHPrice">?</span><br />
+										<br/>
+										APY formula: {TAD price} x {genesis distribution} / ( {TEN STAKED} x {TEN price} ) x 12 x 100%<br/>
+										<b>APY = <span class="APYGenesis">?</span>%</b>
 									</p>
 								</div>
 							</div>
@@ -334,7 +334,7 @@
 							<p class="mb-0"><span class="stake-status"></span></p>
 						</div>
 						<div class="col-2 text-right unstake-button-container">
-							<button type="button" class="btn btn-danger btn-sm">Unstake</button>
+							<button type="button" class="button button-danger button-sm">Unstake</button>
 						</div>
 					</div>
 				</div>
