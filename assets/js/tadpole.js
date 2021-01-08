@@ -388,10 +388,11 @@ var updateBorrowLimit = async function(borrowInUsd){
 var enableCollateral = async function(id){
 	
 	if(!account){
-		Swal.fire(
-		  'Error',
-		  'Connect MetaMask to continue.',
-		  'error'
+		$('.'+cTokenId+'_is_collateral').prop( "checked", false );
+			Swal.fire(
+				'Error',
+				'Connect MetaMask to continue.',
+				'error'		
 		)
 		return;
 	}
