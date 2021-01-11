@@ -7,7 +7,7 @@
     
     
     <!-- Primary Meta Tags -->
-	<title>Tadpole Finance</title>
+	<title>Tadpole Finance - Genesis Mining</title>
 	<meta name="title" content="Tadpole Finance - Genesis Mining">
 	<meta name="description" content="Join Genesis Mining Program to get the distribution of 200,000 TAD (20% of supply)">
 
@@ -15,13 +15,13 @@
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="Tadpole Finance - Genesis Mining">
 	<meta property="og:description" content="Join Genesis Mining Program to get the distribution of 200,000 TAD (20% of supply)">
-	<meta property="og:image" content="assets/images/tadpole-poster-3.jpg">
+	<meta property="og:image" content="assets/images/tadpole-poster-new.jpg">
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:title" content="Tadpole Finance - Genesis Mining">
 	<meta property="twitter:description" content="Join Genesis Mining Program to get the distribution of 200,000 TAD (20% of supply)">
-	<meta property="twitter:image" content="assets/images/tadpole-poster-3.jpg">
+	<meta property="twitter:image" content="assets/images/tadpole-poster-new.jpg">
 
 
     
@@ -55,7 +55,7 @@
 	<script src="assets/js/metamask.js?32"></script>
 	<script src="assets/js/abi/GenesisMining.js"></script>
 	<script src="assets/js/abi/erc20.js"></script>
-	<script src="assets/js/tadpole.js?2"></script>
+	<script src="assets/js/tadpole.js?5"></script>
 	
 	<script type="text/javascript">
 		var page = 'genesis';
@@ -98,15 +98,15 @@
                     
                     <div class="row mt-5 mb-4 justify-content-center">
 						<div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
-							<h6 class="text-dark">Total Stake</h6>
+							<h6 class="text-dark">Total Stake (TEN)</h6>
 							<h3 class="text-dark total-stake">-</h3>
 						</div>
 						<div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
-							<h6 class="text-dark">Your Stake</h6>
+							<h6 class="text-dark">Your Stake (TEN)</h6>
 							<h3 class="text-dark my-stake">-</h3>
 						</div>
 						<div class="col-lg-3 col-md-4 col-sm-6 col-12 text-center">
-							<h6 class="text-dark">Available to Claim</h6>
+							<h6 class="text-dark">Available to Claim (TAD)</h6>
 							<h3 class="text-dark tad-to-claim">-</h3>
 						</div>
 					</div>
@@ -131,6 +131,9 @@
                         <div class="col-lg-4 mb-5">
 							<div class="card">
 								<div class="card-body">
+									<div class="float-right ml-2" style="margin-top: -2px; margin-right: -2px;">
+										<span class="badge badge-pill badge-soft-danger font-size-12">Finished</span>
+									</div>
 									<h4 class="card-title">Stake</h4>
 									<p class="card-title-desc">
 										Stake TEN to get the initial distribution of TAD. Total 200.000 TAD will be distributed in 30 days. It will also claim the TAD reward to your wallet automatically (if any).
@@ -139,10 +142,10 @@
 									<form>
 									
 										<div class="form-group">
-											<span class="float-right">Available: <a href="#" onclick="$('#stake_amount').val($(this).html()); return false;" class="val_ten_balance">0</a> TEN</span>
+											<span class="float-right">Available: <a href="#" onclick="return false;" class="val_ten_balance">0</a> TEN</span>
 											<label for="name">Amount to Stake</label>
 											<div class="input-group mb-3">
-												<input type="text" class="form-control" id="stake_amount" placeholder="">
+												<input type="text" class="form-control" id="stake_amount" placeholder="" disabled="disabled">
 												<div class="input-group-append">
 													<span class="input-group-text">TEN</span>
 												</div>
@@ -152,7 +155,7 @@
 													<a href="#" onclick="addTenToMetamask(); return false;">add TEN to Metamask</a>
 												</div>
 												<div>
-													<button type="submit" class="btn btn-success waves-effect waves-light mr-1 go-stake" onclick="prepare_stake(); return false;">
+													<button type="submit" class="btn btn-secondary waves-effect waves-light mr-1 go-stake" onclick="prepare_stake(); return false;">
 														Stake
 													</button>
 												</div>
@@ -213,7 +216,7 @@
 								<div class="card-body">
 									<h4 class="card-title">Claim</h4>
 									<p class="card-title-desc">
-										You need to manually claim to get TAD token into your wallet. Beware that you need to spend some ethereum gas. You may claim your reward anytime, during or after the genesis period.
+										You need to manually claim to get TAD token into your wallet. Be aware that you need to spend some ethereum gas. You may claim your reward anytime, during or after the genesis period.
 									</p>
 									
 									<form>
@@ -252,6 +255,9 @@
                         <div class="col-lg-4 mb-5">
 							<div class="card">
 								<div class="card-body">
+									<div class="float-right ml-2" style="margin-top: -2px; margin-right: -2px;">
+										<span class="badge badge-pill badge-soft-danger font-size-12">Finished</span>
+									</div>
 									<h4 class="card-title">Genesis Mining APY Calculator</h4>
 									<p>APY is the rate of return of an investment product annualized. The calculation below references the current APY calculated with the latest TEN and TAD prices at Uniswap. The calculation subjects to change from time to time.</p>
 									<p class="card-title-desc">
