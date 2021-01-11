@@ -56,7 +56,7 @@
   }
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 360px) {
   #btn_connect_metamask span {
 	display: none;
   }
@@ -109,7 +109,7 @@
   }
 }
 
-@media only screen and (max-width: 280px) {
+@media only screen and (max-width: 310px) {
   #btn_connect_metamask span {
 	display: none;
   }
