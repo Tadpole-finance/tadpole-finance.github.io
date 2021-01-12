@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    
-    
-    
-    <!-- Primary Meta Tags -->
+	<meta charset="utf-8" />
+
+
+
+	<!-- Primary Meta Tags -->
 	<title>Tadpole Finance - Staking</title>
 	<meta name="title" content="Tadpole Finance - Staking">
 	<meta name="description" content="Stake Uniswap LP tokens to earn TAD as a reward.">
@@ -24,89 +24,96 @@
 	<meta property="twitter:image" content="assets/images/tadpole-poster-new.jpg">
 
 
-    
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap Css -->
-    <link href="assets/css/bootstrap.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="assets/css/tadpole.css" id="app-style" rel="stylesheet" type="text/css" />
-    
-    <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
-    
-    <link href="assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
-    <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-	
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g==" crossorigin="anonymous"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap Css -->
+	<link href="assets/css/bootstrap.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+	<!-- Icons Css -->
+	<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+	<!-- App Css-->
+	<link href="assets/css/tadpole.css" id="app-style" rel="stylesheet" type="text/css" />
+
+	<link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
+
+	<link href="assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
+	<link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"
+		integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g=="
+		crossorigin="anonymous"></script>
+	<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/libs/magnific-popup/jquery.magnific-popup.min.js"></script>
 	<script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
-	
+
 	<script src="assets/js/createjs-2015.11.26.min.js"></script>
 	<script src="assets/js/fish-animation.js?3"></script>
-	
-	
+	<script type="text/javascript">
+		$('#cal_amount').on("change", function () {
+			alert("A");
+		})
+	</script>
+
 	<script src="https://cdn.jsdelivr.net/npm/web3@1.2.6/dist/web3.min.js"></script>
 	<script src="assets/js/bignumber.min.js"></script>
-    <script src="./assets/js/pages.js"></script>
+	<script src="./assets/js/pages.js"></script>
 	<script src="assets/js/metamask.js"></script>
 	<script src="assets/js/abi/UniswapMining.js"></script>
 	<script src="assets/js/abi/erc20.js"></script>
 	<script src="assets/js/abi/TadLp.js"></script>
 	<script src="assets/js/tadpole.js"></script>
 	<script src="assets/js/staking.js?5"></script>
-	
+
 	<script type="text/javascript">
 		var page = 'staking';
-		
+
 	</script>
 </head>
 
 <body data-layout="horizontal">
 	<canvas id="fishHolder" style="position:absolute; width:100%;"></canvas>
-	
-    <div class="container-fluid">
-        <!-- Begin page -->
-        <div id="layout-wrapper">
 
-            <header id="page-topbar">
-            </header>
+	<div class="container-fluid">
+		<!-- Begin page -->
+		<div id="layout-wrapper">
+
+			<header id="page-topbar">
+			</header>
 
 
-            <!-- ============================================================== -->
-            <!-- Start right Content here -->
-            <!-- ============================================================== -->
-            <div class="main-content">
+			<!-- ============================================================== -->
+			<!-- Start right Content here -->
+			<!-- ============================================================== -->
+			<div class="main-content">
 
-                <div class="page-content">
+				<div class="page-content">
 
-                    <!-- start page title -->
-                    <div class="row row-upper">
-                        <div class="col-12">
-                        </div>
-                    </div>
-                    <!-- end page title -->
-                    
-                    <div class="row mt-3 mb-3 d-none goerli-testnet">
+					<!-- start page title -->
+					<div class="row row-upper">
+						<div class="col-12">
+						</div>
+					</div>
+					<!-- end page title -->
+
+					<div class="row mt-3 mb-3 d-none goerli-testnet">
 						<div class="col-12 text-center">
 							<div class="alert alert-warning text-center" role="alert">
 								You are currently connected to the Goerli Testnet
 							</div>
 						</div>
 					</div>
-                    
-                    <div class="row mt-3 mb-3 d-none staking-not-started">
+
+					<div class="row mt-3 mb-3 d-none staking-not-started">
 						<div class="col-12 text-center">
 							<div class="alert alert-warning text-center" role="alert">
-								Staking period will be started at Ethereum block <a href="https://etherscan.io/block/countdown/11250000" target="_blank">#11250000</a>
+								Staking period will be started at Ethereum block <a
+									href="https://etherscan.io/block/countdown/11250000" target="_blank">#11250000</a>
 							</div>
 						</div>
 					</div>
-                    
-                    <div class="row mt-5 mb-4 justify-content-center">
+
+					<div class="row mt-5 mb-4 justify-content-center">
 						<div class="col-lg-2 col-md-4 col-sm-6 col-12 text-center">
 							<h6 class="text-dark">Total Stake (LP)</h6>
 							<h3 class="text-dark uniswap-total-stake"><i class='bx bx-loader-circle bx-spin'></i></h3>
@@ -124,39 +131,46 @@
 							<h3 class="text-dark tad-to-claim"><i class='bx bx-loader-circle bx-spin'></i></h3>
 						</div>
 					</div>
-					
+
 					<div class="row mb-5">
 						<div class="col-3 col-md-2 text-right">
 							Staking Period
 						</div>
 						<div class="col-6 col-md-8 text-center pt-1">
 							<div class="progress" data-toggle="tooltip" title="" data-placement="bottom">
-								<div class="progress-bar staking-percentage" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+								<div class="progress-bar staking-percentage" role="progressbar" style="width: 0%;"
+									aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
 							</div>
-                         </div>
+						</div>
 						<div class="col-3 col-md-2 text-left">
 							Block <a href="https://etherscan.io/block/countdown/13750000" target="_blank">#13750000</a>
 						</div>
 					</div>
-                    
-                    <div class="row coins_container justify-content-md-center">
-						
 
-                        <div class="col-lg-4 mb-5">
+					<div class="row coins_container justify-content-md-center equal">
+
+
+						<div class="col-lg-4 mb-5 d-flex ">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">Stake</h4>
 									<p class="card-title-desc">
-										Stake Uniswap LP tokens to earn TAD tokens. Total 200.000 TAD will be distributed in 1 year. It will also claim the TAD reward to your wallet automatically (if any).
+										Stake Uniswap LP tokens to earn TAD tokens. Total 200.000 TAD will be
+										distributed in 1 year. It will also claim the TAD reward to your wallet
+										automatically (if any).
 									</p>
-									
+
 									<form>
-									
+
 										<div class="form-group">
-											<span class="float-right">Available: <a href="#" onclick="$('#stake_amount').val($(this).html()); return false;" class="val_lp_balance"><i class='bx bx-loader-circle bx-spin'></i></a> LP</span>
+											<span class="float-right">Available: <a href="#"
+													onclick="$('#stake_amount').val($(this).html()); return false;"
+													class="val_lp_balance"><i
+														class='bx bx-loader-circle bx-spin'></i></a> LP</span>
 											<label for="name">Amount to Stake</label>
 											<div class="input-group mb-1">
-												<input type="text" class="form-control" id="stake_amount" placeholder="">
+												<input type="text" class="form-control" id="stake_amount"
+													placeholder="">
 												<div class="input-group-append">
 													<span class="input-group-text">LP</span>
 												</div>
@@ -174,109 +188,129 @@
 											</div>
 											<div class="form-group mb-0">
 												<div class="float-right mt-3 text-muted small">
-													<a href="#" onclick="addLpToMetamask(); return false;">add TAD/ETH LP to Metamask</a>
+													<a href="#" onclick="addLpToMetamask(); return false;">add TAD/ETH
+														LP to Metamask</a>
 												</div>
 												<div>
-													<button type="submit" class="btn btn-success waves-effect waves-light mr-1 go-stake" onclick="uniswap_prepare_stake(); return false;">
+													<button type="submit"
+														class="btn btn-success waves-effect waves-light mr-1 go-stake"
+														onclick="uniswap_prepare_stake(); return false;">
 														Stake
 													</button>
 												</div>
 											</div>
 										</div>
-										
-										
+
+
 									</form>
 								</div>
 							</div>
-                            
-                            
-                            
-						</div>
-						
-						
 
-                        <div class="col-lg-4 mb-5">
+
+
+						</div>
+
+
+
+						<div class="col-lg-4 mb-5 d-flex ">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">Claim</h4>
 									<p class="card-title-desc">
-										You can manually claim your TAD token reward into your wallet. Be aware that you need to spend some ethereum gas. You may claim anytime, during or after the staking period.
+										You can manually claim your TAD token reward into your wallet. Be aware that you
+										need to spend some ethereum gas. You may claim anytime, during or after the
+										staking period.
 									</p>
-									
+
 									<form>
-										
+
 										<div class="form-group">
-											<span class="float-right">Available: ~<span class="tad-to-claim"><i class='bx bx-loader-circle bx-spin'></i></span> TAD</span>
+											<span class="float-right">Available: ~<span class="tad-to-claim"><i
+														class='bx bx-loader-circle bx-spin'></i></span> TAD</span>
 											<label for="name">Amount to Claim</label>
 											<div class="input-group mb-3">
-												<input type="text" class="form-control" id="val_tad_avail" placeholder="" disabled="disabled" value="0">
+												<input type="text" class="form-control" id="val_tad_avail"
+													placeholder="" disabled="disabled" value="0">
 												<div class="input-group-append">
 													<span class="input-group-text">TAD</span>
 												</div>
 											</div>
 											<div class="form-group mb-0">
 												<div class="float-right mt-3 text-muted small">
-													<a href="#" onclick="addTadToMetamask(); return false;">add TAD to Metamask</a>
+													<a href="#" onclick="addTadToMetamask(); return false;">add TAD to
+														Metamask</a>
 												</div>
 												<div>
-													<button type="submit" class="btn btn-info waves-effect waves-light mr-1 go-claim" onclick="uniswap_go_claim(); return false;">
+													<button type="submit"
+														class="btn btn-info waves-effect waves-light mr-1 go-claim"
+														onclick="uniswap_go_claim(); return false;">
 														Claim
 													</button>
 												</div>
 											</div>
 										</div>
-										
-										
+
+
 									</form>
 								</div>
 							</div>
-                            
-                            
-                            
-						</div>
-						
 
-                        <div class="col-lg-4 mb-5">
+						</div>
+
+						<div class="col-lg-4 mb-5 d-flex ">
 							<div class="card">
 								<div class="card-body">
 									<h4 class="card-title">Staking APY Calculator</h4>
-									<p>The APY (Annual Percentage Yield) calculation is calculated with the latest prices at Uniswap. It subjects to change from time to time.</p>
+									<div class="row">
+										<div class="col-sm-12">
+											The APY (Annual Percentage Yield) calculation is calculated with the latest
+											prices at Uniswap. It subjects to change from time to time.
+										</div>
+									</div>
 									<p class="card-title-desc">
 										TAD price: $<span class="tadPrice">?</span> &nbsp;&middot;&nbsp;
 										ETH price: $<span class="ethPrice">?</span><br />
 										<br />
 										Formula: <img src="assets/images/stake-apy-formula.png" height="30px" /><br />
 										<br />
-<!--
-										APY = <span class="tadPrice">?</span> * 200000 / ( <span class="reserveEth">?</span> *  <span class="ethPrice">?</span> + <span class="reserveTad">?</span> *  <span class="tadPrice">?</span> ) * <span class="lpSupply">?</span> / <span class="stakedLp">?</span> * 100%<br />
--->
 										<b>APY (not locked) = <span class="apyStaking0">?</span>%</b><br />
 										<b>APY (locked 30 days) = <span class="apyStaking30">?</span>%</b><br />
 										<b>APY (locked 90 days) = <span class="apyStaking90">?</span>%</b><br />
 										<b>APY (locked 180 days) = <span class="apyStaking180">?</span>%</b><br />
 										<b>APY (locked 360 days) = <span class="apyStaking360">?</span>%</b>
 									</p>
+									<p>
+										<div class="input-group mb-1">
+											<input type="text" class="form-control" id="cal_amount" placeholder="">
+											<div class="input-group-append">
+												<span class="input-group-text">LP</span>
+											</div>
+										</div>
+										<select class="custom-select" id="cal_period">
+
+										</select>
+									</p>
+									<p id="cal_staked_amount">
+										Staked Amount : -
+									</p>
+									<p id="cal_return">
+										Est. Reward : -
+									</p>
+									<p id="cal_total">
+										Est. Return : -
+									</p>
 								</div>
 							</div>
-                            
-                            
-                            
 						</div>
-						
-						
-						
-						
-						
-                    </div>
-                    <!-- end row -->
-                    
-                    
-                    <div class="row coins_container justify-content-md-center">
-						
-                        <div class="col-8 mb-2">
+					</div>
+					<!-- end row -->
+
+					<div class="row coins_container justify-content-md-center">
+
+						<div class="col-8 mb-2">
 							<h5>Your Staking</h5>
 						</div>
-                        <div class="col-lg-8 col-12 mb-5">
+						<div class="col-lg-8 col-12 mb-5">
 							<div class="card" id="stakes-loading">
 								<div class="card-body">
 									<center><i class='bx bx-loader-circle bx-spin'></i></center>
@@ -287,7 +321,7 @@
 									<center>- You don't have active stakes -</center>
 								</div>
 							</div>
-							
+
 							<div id="stakes-box" class="d-none">
 								<div class="row pl-2 pr-3">
 									<div class="col-2">
@@ -303,34 +337,34 @@
 										<h6>Action</h6>
 									</div>
 								</div>
-								
-								
+
+
 								<div class="row" id="stakes-items">
-									
+
 								</div>
-							
-							
-							
+
+
+
 							</div>
-							
+
 						</div>
 					</div>
 					<!-- end row -->
-                </div>
-                <!-- End Page-content -->
+				</div>
+				<!-- End Page-content -->
 
-                <footer class="footer">
-                </footer>
-            </div>
-            <!-- end main content-->
+				<footer class="footer">
+				</footer>
+			</div>
+			<!-- end main content-->
 
-        </div>
-        <!-- END layout-wrapper -->
+		</div>
+		<!-- END layout-wrapper -->
 
-    </div>
-    <!-- end container-fluid -->
-    
-    <div class="d-none" id="stake-template">
+	</div>
+	<!-- end container-fluid -->
+
+	<div class="d-none" id="stake-template">
 		<div class="col-12">
 			<div class="card">
 				<div class="card-body pt-2 pb-2">
@@ -351,7 +385,8 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 
 </body>
+
 </html>

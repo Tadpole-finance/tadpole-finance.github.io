@@ -83,6 +83,23 @@ var init_staking = async function(){
 	$('.apyStaking90').html(toMaxDecimal(apy*0.6, 2));
 	$('.apyStaking180').html(toMaxDecimal(apy*0.8, 2));
 	$('.apyStaking360').html(toMaxDecimal(apy, 2));
+
+	$("#cal_period").append(`<option value="${toMaxDecimal(apy*0.2, 2)}">Not Locked, 1x Reward</option>`);
+    $("#cal_period").append(`<option value="${toMaxDecimal(apy*0.4, 2)}">Locked for 30 days, 1x Reward</option>`);
+    $("#cal_period").append(`<option value="${toMaxDecimal(apy*0.6, 2)}">Locked for 90 days, 2x Reward</option>`);
+    $("#cal_period").append(`<option value="${toMaxDecimal(apy*0.8, 2)}">Locked for 180 days, 3x Reward</option>`);
+    $("#cal_period").append(`<option value="${toMaxDecimal(apy, 2)}">Locked for 360 days, 4x Reward</option>`);
+
+    $('#cal_amount, #cal_period').on("change",function(){
+        var staked_amount = parseFloat($('#cal_amount').val()) ;
+        var period = parseFloat($('#cal_period').val()) ;
+        var result = parseFloat(staked_amount * ( period / 100 ));
+        var total = staked_amount+result;
+        
+        $('#cal_staked_amount').html(`Staked Amount : ${staked_amount}`);
+        $('#cal_return').html(`Est. Reward : ${result} TAD`);
+        $('#cal_total').html(`Est. Return : ${total} TAD`);
+    })
 	
 	if(account){
 		var lpBalance = await lpCont.methods.balanceOf(account).call();
@@ -469,7 +486,9 @@ var getEthTadPrices = async function(){
 
 
 
+
 $(function(){
+
 	if(page=='staking'){
 		init_staking();
 
