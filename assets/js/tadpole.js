@@ -179,7 +179,10 @@ change_environment = function(chainId){
 		return false;
 	}
 	
-	if(page=='main') syncCont();
+	if(page=='main'){ 
+		syncCont();
+		if(account) syncAccount(account);
+	}
 	else if(page=='genesis') init_genesis();
 	else if(page=='staking') init_staking();
 	
