@@ -16,8 +16,8 @@ var formatter = new Intl.NumberFormat('us-US', {
 
 var _MAINNET_ENV = {
 	"id": 1,
-	"comptrollerAddress": "0x",
-	"oracleAddress": "0x",
+	"comptrollerAddress": "0x58305c26337b7ad714e1deb9bb4a94c288b77ec2",
+	"oracleAddress": "0x16DfCeabb08A4f0DEffc28B8d7beA29EE120cab7",
 	"tadAddress": "0x9f7229aF0c4b9740e207Ea283b9094983f78ba04",
 	"genesisMiningAddress": "0x8Cb331D8F117a5C914fd0f2579321572A27bf191",
 	"uniswapMiningAddress": "0x0c14e822E43796d955a30b6d974f62031dA845e3",
