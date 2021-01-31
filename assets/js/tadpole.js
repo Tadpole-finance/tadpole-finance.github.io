@@ -136,7 +136,7 @@ var _GOERLI_ENV = {
 			"cTokenDecimals": 8,
 			"underlyingDecimals": 8,
 			"address": "0x603ea7d47e461998e794FC60bA1062E420dfB76e",
-			"underlyingAddress": "0xf32789C480Cd5944AE1539c83e33380439b14bb3"
+			"underlyingAddress": "0x5f667013eb4da53be560701cd3d7757eced85c40"
 		},
 		"ten": {
 			"id": "ten",
@@ -179,7 +179,10 @@ change_environment = function(chainId){
 		return false;
 	}
 	
-	if(page=='main') syncCont();
+	if(page=='main'){ 
+		syncCont();
+		if(account) syncAccount(account);
+	}
 	else if(page=='genesis') init_genesis();
 	else if(page=='staking') init_staking();
 	
