@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+
+
+
+	<!-- Primary Meta Tags -->
+	<title>Tadpole Finance</title>
+	<meta name="title" content="Tadpole Finance">
+	<meta name="description" content="Decentralized Finance Platform for Saving and Lending Crypto">
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="Tadpole Finance">
+	<meta property="og:description" content="Decentralized Finance Platform for Saving and Lending Crypto">
+	<meta property="og:image" content="assets/images/tadpole-poster-new.jpg">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:title" content="Tadpole Finance">
+	<meta property="twitter:description" content="Decentralized Finance Platform for Saving and Lending Crypto">
+	<meta property="twitter:image" content="assets/images/tadpole-poster-new.jpg">
+
+
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap Css -->
+	<link href="assets/css/bootstrap.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+	<!-- Icons Css -->
+	<link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+	<!-- App Css-->
+	<link href="assets/css/tadpole.css" id="app-style" rel="stylesheet" type="text/css" />
+
+	<link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
+
+	<link href="assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
+	<link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"
+		integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g=="
+		crossorigin="anonymous"></script>
+	<script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="assets/libs/magnific-popup/jquery.magnific-popup.min.js"></script>
+	<script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+	<script src="assets/js/createjs-2015.11.26.min.js"></script>
+	<script src="assets/js/fish-animation.js?3"></script>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/web3@1.2.6/dist/web3.min.js"></script>
+	<script src="assets/js/bignumber.min.js"></script>
+	<script src="assets/libs/node-waves/waves.min.js"></script>
+	<script src="./assets/js/pages.js?1"></script>
+	<script src="assets/js/metamask-goerli.js?1"></script>
+	<script src="assets/js/abi/comptroller.js"></script>
+	<script src="assets/js/abi/oracle.js"></script>
+	<script src="assets/js/abi/cerc20.js"></script>
+	<script src="assets/js/abi/erc20.js"></script>
+	<script src="assets/js/tadpole.js?2"></script>
+
+	<script type="text/javascript">
+		var page = 'main';
+
+	</script>
+</head>
+
+<body data-layout="horizontal">
+	<canvas id="fishHolder" style="position:absolute; width:100%"></canvas>
+
+	<div class="container-fluid">
+		<!-- Begin page -->
+		<div id="layout-wrapper">
+
+			<header id="page-topbar">
+
+			</header>
+
+
+			<!-- ============================================================== -->
+			<!-- Start right Content here -->
+			<!-- ============================================================== -->
+			<div class="main-content">
+
+				<div class="page-content">
+
+					<!-- start page title -->
+					<div class="row row-upper">
+						<div class="col-12">
+							<!--
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="page-title mb-0 font-size-18">&nbsp;</h4>
+
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <li class="breadcrumb-item active">
+											<a href="#" onclick="refreshData(); return false;">
+												<span class="mdi mdi-reload refresh-btn"></span> reload
+											</a>
+                                        
+                                        </li>
+                                    </ol>
+                                </div>
+
+                            </div>
+-->
+						</div>
+					</div>
+					<!-- end page title -->
+
+					<div class="row mt-3 mb-3 d-none goerli-testnet">
+						<div class="col-12 text-center">
+							<div class="alert alert-warning text-center" role="alert">
+								You are currently connected to the Goerli Testnet
+							</div>
+						</div>
+					</div>
+
+					<div class="row mt-3 mb-3 mainnet">
+						<div class="col-12 text-center">
+							<div class="alert alert-danger text-center" role="alert">
+								Saving and Lending app is under development and currently only available in Goerli
+								Testnet
+							</div>
+						</div>
+					</div>
+
+					<div class="row mt-5 mb-4">
+						<div class="col-sm-6 col-12 text-center">
+							<h6 class="text-success">Supply Balance</h6>
+							<h3 class="text-dark supply-balance">-</h3>
+						</div>
+						<div class="col-sm-6 col-12 text-center">
+							<h6 class="text-danger">Borrow Balance</h6>
+							<h3 class="text-dark borrow-balance">-</h3>
+						</div>
+					</div>
+
+					<div class="row mb-5">
+						<div class="col-2 text-right">
+							Borrow Limit
+						</div>
+						<div class="col-8 text-center pt-1">
+							<div class="progress">
+								<div class="progress-bar borrow-percentage" role="progressbar" style="width: 0%;"
+									aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+							</div>
+						</div>
+						<div class="col-2 text-left borrow-limit">
+							-
+						</div>
+					</div>
+
+					<div class="row coins_container">
+
+
+						<div class="col-xl-6 mb-5">
+							<h3>Supply</h3>
+							<div class="supplies_container" id="supplies_container">
+
+							</div>
+
+
+
+						</div>
+
+
+						<div class="col-xl-6 mb-5">
+							<h3>Borrow</h3>
+							<div class="borrows_container" id="borrows_container">
+
+							</div>
+
+
+
+						</div>
+					</div>
+					<!-- end row -->
+
+				</div>
+				<!-- End Page-content -->
+
+				<footer class="footer">
+				</footer>
+			</div>
+			<!-- end main content-->
+
+		</div>
+		<!-- END layout-wrapper -->
+
+	</div>
+	<!-- end container-fluid -->
+
+	<div class="d-none" id="template_supply_item">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="row align-items-center">
+
+
+					<div class="col-sm-3 col-7 coin-title">
+						<h5 class="mb-0">
+							<img src="" class="coin-logo" />&nbsp;
+							<span class="coin-name"></span>
+						</h5>
+					</div>
+					<div class="col-3 d-sm-none text-right pr-0 pb-3 align-top">
+						<abbr title="Enable Collateral and Borrowing">Enable</abbr>
+					</div>
+					<div class="col-2 d-sm-none collateral-col pb-2">
+						<div class="custom-control custom-switch mb-2">
+
+							<input type="checkbox" class="custom-control-input" id="">
+							<label class="custom-control-label" for=""></label>
+						</div>
+					</div>
+
+					<div class="col-sm-9 col-xs-12">
+
+						<div class="row coin-body">
+							<div class="col-sm-2 col-3 coin-apy">
+								<p class="mb-0"><abbr title="Annual Percentage Yield">APY</abbr></p>
+								<h5 class="mb-0 coin_val_apy">
+									<span class="mdi mdi-loading mdi-spin"></span>
+								</h5>
+								<p class="mb-0 empty-space"></p>
+							</div>
+							<div class="col-sm-6 col-6 ">
+								<p class="mb-0">Supply Balance</p>
+								<h5 class="mb-0 coin_val_balance_underlying"><span
+										class="mdi mdi-loading mdi-spin"></span></h5>
+								<p class="mb-0 coin_val_balance_underlying_usd">$0.00</p>
+							</div>
+							<div class="col-sm-2 col-3 collateral-percent-col">
+								<p class="mb-0"><abbr title="Collateral Percentage">Coll</abbr></p>
+								<h5 class="mb-0 coin_collateral_percentage"><span
+										class="mdi mdi-loading mdi-spin"></span></h5>
+							</div>
+							<div class="col-2 d-none d-sm-block collateral-col">
+
+								<p class="mb-0"><abbr title="Enable Collateral and Borrowing">Enable</abbr></p>
+								<div class="custom-control custom-switch mb-2" dir="ltr">
+									<input type="checkbox" class="custom-control-input" id="">
+									<label class="custom-control-label" for=""></label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="d-none" id="template_borrow_item">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="row align-items-center">
+
+
+					<div class="col-sm-4 col-xs-12 coin-title">
+						<h5 class="mb-0">
+							<img src="" class="coin-logo" />&nbsp;
+							<span class="coin-name"></span>
+						</h5>
+					</div>
+
+					<div class="col-sm-8 col-xs-12">
+
+						<div class="row coin-body">
+							<div class="col-4 coin-apy">
+								<p class="mb-0">Borrow Rate</p>
+								<h5 class="mb-0 coin_val_rate">
+									<span class="mdi mdi-loading mdi-spin"></span>
+								</h5>
+								<p class="mb-0 empty-space"></p>
+							</div>
+							<div class="col-8">
+								<p class="mb-0">Borrow Amount</p>
+								<h5 class="mb-0 coin_val_balance_borrow"><span class="mdi mdi-loading mdi-spin"></span>
+								</h5>
+								<p class="mb-0 coin_val_balance_borrow_usd">$0.00</p>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="card mfp-hide mfp-popup-form mx-auto" id="depo-form">
+		<div class="card-body">
+			<center><img src="" class="mb-2 coin_img" />
+				<h4 class="mt-0 mb-4">Supply <span class="val_coin_name"></span></h4>
+			</center>
+			<div class="row mb-4">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<span class="float-right">Balance: <a href="#"
+								onclick="$('#depo_amount').val($(this).html()); return false;"
+								class="val_coin_balance"></a></span>
+						<label for="name">Amount to Supply</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="depo_amount" placeholder="">
+							<div class="input-group-append">
+								<span class="input-group-text val_coin_unit"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div>
+						<button class="btn btn-primary btn-block coin_btn_lanjut">Continue</button>
+						<button class="btn btn-light btn-block coin_btn_redeem">Redeem</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card mfp-hide mfp-popup-form mx-auto" id="enable-form">
+		<div class="card-body">
+			<center><img src="" class="mb-2 coin_img" />
+				<h4 class="mt-0 mb-4">Supply <span class="val_coin_name"></span></h4>
+			</center>
+			<div class="row mb-4">
+				<div class="col-lg-12">
+					To supply <span class="val_coin_name"></span> to Tadpole liquidity, you must give a permission to
+					the Tadpole smart contract using MetaMask.
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div>
+						<button class="btn btn-primary btn-block coin_btn_lanjut">Continue</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card mfp-hide mfp-popup-form mx-auto" id="wd-form">
+		<div class="card-body">
+			<center><img src="" class="mb-2 coin_img" />
+				<h4 class="mt-0 mb-4">Redeem <span class="val_coin_name"></span></h4>
+			</center>
+			<div class="row mb-4">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<span class="float-right">Balance: <a href="#"
+								onclick="$('#wd_amount').val($(this).html()); return false;"
+								class="val_coin_balance"></a></span>
+						<label for="name">Amount to Redeem</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="wd_amount" placeholder="">
+							<div class="input-group-append">
+								<span class="input-group-text val_coin_unit"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div>
+						<button class="btn btn-primary btn-block coin_btn_lanjut">Continue</button>
+						<button class="btn btn-light btn-block coin_btn_depo">Supply</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card mfp-hide mfp-popup-form mx-auto" id="borrow-form">
+		<div class="card-body">
+			<center><img src="" class="mb-2 coin_img" />
+				<h4 class="mt-0 mb-4">Borrow <span class="val_coin_name"></span></h4>
+			</center>
+			<div class="row mb-4">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<span class="float-right">Max Borrow: <a href="#"
+								onclick="$('#borrow_amount').val($(this).html()); return false;"
+								class="val_coin_maxborrow"></a></span>
+						<label for="name">Amount to Borrow</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="borrow_amount" placeholder="">
+							<div class="input-group-append">
+								<span class="input-group-text val_coin_unit"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div>
+						<button class="btn btn-primary btn-block coin_btn_lanjut">Continue</button>
+						<button class="btn btn-light btn-block coin_btn_repay">Repay</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card mfp-hide mfp-popup-form mx-auto" id="repay-form">
+		<div class="card-body">
+			<center><img src="" class="mb-2 coin_img" />
+				<h4 class="mt-0 mb-4">Repay <span class="val_coin_name"></span></h4>
+			</center>
+			<div class="row mb-4">
+				<div class="col-lg-12">
+					<div class="form-group">
+
+						<div class="custom-control custom-switch ml-4 float-right" dir="ltr">
+							<input type="checkbox" class="custom-control-input" id="fullrepay">
+							<label class="custom-control-label" for="fullrepay">Full Repay</label>
+						</div>
+
+						<span class="float-right">Debt: <a href="#" onclick="" class="val_coin_debt"></a></span>
+
+						<label for="name">Amount to Repay</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="repay_amount" placeholder="">
+							<div class="input-group-append">
+								<span class="input-group-text val_coin_unit"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div>
+						<button class="btn btn-primary btn-block coin_btn_lanjut">Continue</button>
+						<button class="btn btn-light btn-block coin_btn_borrow">Borrow</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
