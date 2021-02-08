@@ -390,20 +390,21 @@ var updateBorrowLimit = async function(borrowInUsd){
 
 var enableCollateral = async function(id){
 	
+	Object.values(ENV.cTokens).forEach(function(cItem, cIndex){
+		if(cItem.id == id) cont = cItem;
+	});
+
+	var cTokenId = cont.id;
 	if(!account){
 		Swal.fire(
 		  'Error',
 		  'Connect MetaMask to continue.',
 		  'error'
 		)
+		$('.'+cTokenId+'_is_collateral').prop( "checked", false );
 		return;
 	}
-	
-	Object.values(ENV.cTokens).forEach(function(cItem, cIndex){
-		if(cItem.id == id) cont = cItem;
-	});
-	
-	var cTokenId = cont.id;
+
 	await ENV.comptrollerContract.methods.enterMarkets([cont.address]).send({
 			from: account
 		}, function(err, result){
