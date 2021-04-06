@@ -38,7 +38,7 @@ var connectMetamask = async function(){
 	if(eth_chainId!='0x38'){ //bsc
 		Swal.fire(
 		  'Error',
-		  'Saving and Lending app is only available in Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
+		  'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
 		  'error'
 		);
 		return;
@@ -63,7 +63,7 @@ ethereum.on('accountsChanged', async (accounts) => {
 	if(eth_chainId!='0x38'){ //bsc
 		//~ Swal.fire(
 		  //~ 'Error',
-		  //~ 'Saving and Lending app is only available in Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
+		  //~ 'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
 		  //~ 'error'
 		//~ );
 		return;
@@ -85,7 +85,7 @@ ethereum.on('networkChanged', async (chainId) => {
 	if(eth_chainId!='0x38'){ //bsc
 		//~ Swal.fire(
 		  //~ 'Error',
-		  //~ 'Saving and Lending app is only available in Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
+		  //~ 'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
 		  //~ 'error'
 		//~ );
 		return;
