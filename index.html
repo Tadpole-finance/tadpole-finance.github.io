@@ -55,12 +55,13 @@
 	<script src="assets/js/bignumber.min.js"></script>
 	<script src="assets/libs/node-waves/waves.min.js"></script>
 	<script src="./assets/js/pages.js?1"></script>
-	<script src="assets/js/metamask-goerli.js?1"></script>
+	<script src="assets/js/metamask-bsc.js?1"></script>
 	<script src="assets/js/abi/comptroller.js"></script>
 	<script src="assets/js/abi/oracle.js"></script>
 	<script src="assets/js/abi/cerc20.js"></script>
+	<script src="assets/js/abi/cether.js"></script>
 	<script src="assets/js/abi/erc20.js"></script>
-	<script src="assets/js/tadpole.js?2"></script>
+	<script src="assets/js/tadpole-bsc.js?2"></script>
 
 	<script type="text/javascript">
 		var page = 'main';
@@ -69,6 +70,14 @@
 </head>
 
 <body data-layout="horizontal">
+	
+	<div style="width: 100%; height: 100%; background: #fff; position: fixed; top: 0; left: 0; z-index: 1000;" class="d-none" id="not-bsc-alert">
+		<div style="color: #000; text-align: center; margin-top: 200px;">
+			<p>Tadpole Finance Saving and Lending app is available in Binance Smart Chain network.</p>
+			<p>Connect to Metamask plugin and select Binance Smart Chain network to continue using this app.</p>
+		</div>
+	</div>
+	
 	<canvas id="fishHolder" style="position:absolute; width:100%"></canvas>
 
 	<div class="container-fluid">
@@ -111,24 +120,15 @@
 					</div>
 					<!-- end page title -->
 
-					<div class="row mt-3 mb-3 d-none goerli-testnet">
-						<div class="col-12 text-center">
-							<div class="alert alert-warning text-center" role="alert">
-								You are currently connected to the Goerli Testnet
-							</div>
-						</div>
-					</div>
-
 					<div class="row mt-3 mb-3 mainnet">
 						<div class="col-12 text-center">
-							<div class="alert alert-danger text-center" role="alert">
-								Saving and Lending app is under development and currently only available in Goerli
-								Testnet
+							<div class="alert alert-info text-center" role="alert">
+								Tadpole Finance Saving and Lending app is available in Binance Smart Chain network
 							</div>
 						</div>
 					</div>
 
-					<div class="row mt-5 mb-4">
+					<div class="row mt-3 mb-4">
 						<div class="col-sm-6 col-12 text-center">
 							<h6 class="text-success">Supply Balance</h6>
 							<h3 class="text-dark supply-balance">-</h3>
