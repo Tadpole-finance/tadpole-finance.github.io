@@ -40,8 +40,8 @@ var _MAINNET_ENV = {
 			"logo": "./assets/libs/cryptocurrency-icons/32/color/usdt.png",
 			"cTokenDecimals": 8,
 			"underlyingDecimals": 18,
-			"address": "0x7d611b1b0b70fcf0678d44893418301c712c868e",
-			"underlyingAddress": "0x55d398326f99059ff775485246999027b3197955"
+			"address": "0x7d611B1B0B70Fcf0678d44893418301c712C868E",
+			"underlyingAddress": "0x55d398326f99059fF775485246999027B3197955"
 		},
 		"bnb": {
 			"id": "bnb",
