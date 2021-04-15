@@ -439,7 +439,9 @@ var pop_depo = async function(id){
 		var token = new web3.eth.Contract(erc20Abi, cont.underlyingAddress);
 		var allowance = await token.methods.allowance(account, cont.address).call();
 		allowance = allowance / Math.pow(10, cont.underlyingDecimals);
-		if(allowance<9999999999){ //allowance not enough, ask to approve
+		var needed_allowance = 9999999999;
+		if(cont.id=='tad') needed_allowance = 1000000;
+		if(allowance<needed_allowance){ //allowance not enough, ask to approve
 		
 			pop_enable(cont);
 			return;
