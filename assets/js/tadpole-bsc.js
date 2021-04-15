@@ -570,6 +570,7 @@ var go_enable = async function(id){
 	
 	var token = new web3.eth.Contract(erc20Abi, cont.underlyingAddress);
 	var raw_amount = 99999999999999999999*Math.pow(10, cont.underlyingDecimals);
+	if(id=='tad') raw_amount = 1000000*Math.pow(10, cont.underlyingDecimals);
 	var allowance = await token.methods.approve(cont.address, numberToString(raw_amount)).send({
 		from: account,
 		gas: gasLimitApprove
