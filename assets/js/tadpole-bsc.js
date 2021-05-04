@@ -440,7 +440,7 @@ var pop_depo = async function(id){
 		var allowance = await token.methods.allowance(account, cont.address).call();
 		allowance = allowance / Math.pow(10, cont.underlyingDecimals);
 		var needed_allowance = 9999999999;
-		if(cont.id=='tad') needed_allowance = 1000000;
+		if(cont.id=='tad') needed_allowance = 500000;
 		if(allowance<needed_allowance){ //allowance not enough, ask to approve
 		
 			pop_enable(cont);
@@ -572,7 +572,7 @@ var go_enable = async function(id){
 	
 	var token = new web3.eth.Contract(erc20Abi, cont.underlyingAddress);
 	var raw_amount = 99999999999999999999*Math.pow(10, cont.underlyingDecimals);
-	if(id=='tad') raw_amount = 1000000*Math.pow(10, cont.underlyingDecimals);
+	if(id=='tad') raw_amount = 10000000*Math.pow(10, cont.underlyingDecimals);
 	var allowance = await token.methods.approve(cont.address, numberToString(raw_amount)).send({
 		from: account,
 		gas: gasLimitApprove
