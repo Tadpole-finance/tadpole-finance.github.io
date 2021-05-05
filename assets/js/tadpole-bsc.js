@@ -91,7 +91,8 @@ var syncCont = function(){
 	ENV.comptrollerContract = new web3.eth.Contract(comptrollerAbi, ENV.comptrollerAddress);
 	ENV.oracleContract = new web3.eth.Contract(oracleAbi, ENV.oracleAddress);
 	Object.values(ENV.cTokens).forEach(async function(cToken, index){
-		ENV.cTokens[cToken.id].contract = new web3.eth.Contract(cErc20Abi, cToken.address);
+		if(cToken.id=='bnb') ENV.cTokens[cToken.id].contract = new web3.eth.Contract(cEtherAbi, cToken.address);
+		else ENV.cTokens[cToken.id].contract = new web3.eth.Contract(cErc20Abi, cToken.address);
 	});
 }
 
@@ -845,7 +846,7 @@ var pop_repay = function(id){
 var go_repay = async function(id){
 	var cont;
 	Object.values(ENV.cTokens).forEach(function(cItem, cIndex){
-		if(cItem.id == id) cont = cItem;
+		if(cItem.id == id) cont = cItem; 
 	});
 	var amount = $('#repay_amount').val();
 	if(!amount||isNaN(amount)||amount<=0){
@@ -861,29 +862,54 @@ var go_repay = async function(id){
 	
 	var raw_amount = numberToString(Math.floor(amount * Math.pow(10, cont.underlyingDecimals)));
 	
-	if($('#fullrepay').is(':checked')){
-		raw_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-	}
 	
-	await cont.contract.methods.repayBorrow(raw_amount).send({
-		from: account
-	}, function(err, result){
-		if (err) {
-			$.magnificPopup.close();
-			Swal.fire(
-			  'Failed',
-			  err.message,
-			  'error'
-			)
-		} else {
-			$.magnificPopup.close();
-			Swal.fire(
-			  'Transaction Sent',
-			  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
-			  'success'
-			)
+	
+	if(id=='bnb'){
+		await cont.contract.methods.repayBorrow().send({
+			from: account,
+			value: raw_amount
+		}, function(err, result){
+			if (err) {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Failed',
+				  err.message,
+				  'error'
+				)
+			} else {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Transaction Sent',
+				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+				  'success'
+				)
+			}
+		});
+	}
+	else{
+		if($('#fullrepay').is(':checked')){
+			raw_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
 		}
-	});
+		await cont.contract.methods.repayBorrow(raw_amount).send({
+			from: account
+		}, function(err, result){
+			if (err) {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Failed',
+				  err.message,
+				  'error'
+				)
+			} else {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Transaction Sent',
+				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+				  'success'
+				)
+			}
+		});
+	}
 }
 
 var togglerepay = function(id, reverse=false){
