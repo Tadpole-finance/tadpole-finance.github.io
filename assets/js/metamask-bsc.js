@@ -1,5 +1,5 @@
 
-var bsc_url = 'https://bsc-dataseed1.binance.org';
+var bsc_url = 'https://bsc-dataseed1.defibit.io';
 
 
 var web3 = new Web3(new Web3.providers.HttpProvider(bsc_url));
