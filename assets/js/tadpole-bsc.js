@@ -512,7 +512,7 @@ var go_depo = async function(id){
 			} else {
 				$.magnificPopup.close();
 				Swal.fire(
-				  'Transaksi Terkirim',
+				  'Transaction Sent',
 				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
 				  'success'
 				)
@@ -538,7 +538,7 @@ var go_depo = async function(id){
 			} else {
 				$.magnificPopup.close();
 				Swal.fire(
-				  'Transaksi Terkirim',
+				  'Transaction Sent',
 				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
 				  'success'
 				)
