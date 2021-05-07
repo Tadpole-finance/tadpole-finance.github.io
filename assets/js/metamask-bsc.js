@@ -82,7 +82,7 @@ ethereum.on('accountsChanged', async (accounts) => {
 ethereum.on('networkChanged', async (chainId) => {
 	
 	//force bsc
-	if(eth_chainId!='0x38'){ //bsc
+	if(chainId!='0x38'){ //bsc
 		//~ Swal.fire(
 		  //~ 'Error',
 		  //~ 'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
