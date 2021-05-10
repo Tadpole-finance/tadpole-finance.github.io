@@ -91,7 +91,8 @@ var syncCont = function(){
 	ENV.comptrollerContract = new web3.eth.Contract(comptrollerAbi, ENV.comptrollerAddress);
 	ENV.oracleContract = new web3.eth.Contract(oracleAbi, ENV.oracleAddress);
 	Object.values(ENV.cTokens).forEach(async function(cToken, index){
-		ENV.cTokens[cToken.id].contract = new web3.eth.Contract(cErc20Abi, cToken.address);
+		if(cToken.id=='bnb') ENV.cTokens[cToken.id].contract = new web3.eth.Contract(cEtherAbi, cToken.address);
+		else ENV.cTokens[cToken.id].contract = new web3.eth.Contract(cErc20Abi, cToken.address);
 	});
 }
 
@@ -440,7 +441,7 @@ var pop_depo = async function(id){
 		var allowance = await token.methods.allowance(account, cont.address).call();
 		allowance = allowance / Math.pow(10, cont.underlyingDecimals);
 		var needed_allowance = 9999999999;
-		if(cont.id=='tad') needed_allowance = 1000000;
+		if(cont.id=='tad') needed_allowance = 500000;
 		if(allowance<needed_allowance){ //allowance not enough, ask to approve
 		
 			pop_enable(cont);
@@ -511,7 +512,7 @@ var go_depo = async function(id){
 			} else {
 				$.magnificPopup.close();
 				Swal.fire(
-				  'Transaksi Terkirim',
+				  'Transaction Sent',
 				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
 				  'success'
 				)
@@ -537,7 +538,7 @@ var go_depo = async function(id){
 			} else {
 				$.magnificPopup.close();
 				Swal.fire(
-				  'Transaksi Terkirim',
+				  'Transaction Sent',
 				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
 				  'success'
 				)
@@ -572,7 +573,7 @@ var go_enable = async function(id){
 	
 	var token = new web3.eth.Contract(erc20Abi, cont.underlyingAddress);
 	var raw_amount = 99999999999999999999*Math.pow(10, cont.underlyingDecimals);
-	if(id=='tad') raw_amount = 1000000*Math.pow(10, cont.underlyingDecimals);
+	if(id=='tad') raw_amount = 10000000*Math.pow(10, cont.underlyingDecimals);
 	var allowance = await token.methods.approve(cont.address, numberToString(raw_amount)).send({
 		from: account,
 		gas: gasLimitApprove
@@ -845,7 +846,7 @@ var pop_repay = function(id){
 var go_repay = async function(id){
 	var cont;
 	Object.values(ENV.cTokens).forEach(function(cItem, cIndex){
-		if(cItem.id == id) cont = cItem;
+		if(cItem.id == id) cont = cItem; 
 	});
 	var amount = $('#repay_amount').val();
 	if(!amount||isNaN(amount)||amount<=0){
@@ -861,29 +862,54 @@ var go_repay = async function(id){
 	
 	var raw_amount = numberToString(Math.floor(amount * Math.pow(10, cont.underlyingDecimals)));
 	
-	if($('#fullrepay').is(':checked')){
-		raw_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-	}
 	
-	await cont.contract.methods.repayBorrow(raw_amount).send({
-		from: account
-	}, function(err, result){
-		if (err) {
-			$.magnificPopup.close();
-			Swal.fire(
-			  'Failed',
-			  err.message,
-			  'error'
-			)
-		} else {
-			$.magnificPopup.close();
-			Swal.fire(
-			  'Transaction Sent',
-			  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
-			  'success'
-			)
+	
+	if(id=='bnb'){
+		await cont.contract.methods.repayBorrow().send({
+			from: account,
+			value: raw_amount
+		}, function(err, result){
+			if (err) {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Failed',
+				  err.message,
+				  'error'
+				)
+			} else {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Transaction Sent',
+				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+				  'success'
+				)
+			}
+		});
+	}
+	else{
+		if($('#fullrepay').is(':checked')){
+			raw_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
 		}
-	});
+		await cont.contract.methods.repayBorrow(raw_amount).send({
+			from: account
+		}, function(err, result){
+			if (err) {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Failed',
+				  err.message,
+				  'error'
+				)
+			} else {
+				$.magnificPopup.close();
+				Swal.fire(
+				  'Transaction Sent',
+				  result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+				  'success'
+				)
+			}
+		});
+	}
 }
 
 var togglerepay = function(id, reverse=false){

@@ -42,6 +42,16 @@ var connectMetamask = async function(){
 	
 	const eth_chainId = await ethereum.request({ method: 'eth_chainId' });
 	
+	//force bsc
+	if(eth_chainId=='0x38'){ //bsc
+		Swal.fire(
+		  'Error',
+		  'Change your Metamask network to Ethereum Mainnet.',
+		  'error'
+		);
+		return;
+	}
+	
 	
 	web3 = new Web3(ethereum);
 	
@@ -58,6 +68,16 @@ ethereum.on('accountsChanged', async (accounts) => {
 	
 	eth_chainId = await ethereum.request({ method: 'eth_chainId' });
 	
+	//force bsc
+	if(eth_chainId=='0x38'){ //bsc
+		//~ Swal.fire(
+		  //~ 'Error',
+		  //~ 'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Ethereum Mainnet to use this app.',
+		  //~ 'error'
+		//~ );
+		return;
+	}
+	
 	
 	account = accounts[0];
 	
@@ -69,6 +89,16 @@ ethereum.on('accountsChanged', async (accounts) => {
 });
 
 ethereum.on('chainChanged', async (chainId) => {
+	
+	//force bsc
+	if(chainId=='0x38'){ //bsc
+		//~ Swal.fire(
+		  //~ 'Error',
+		  //~ 'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Ethereum Mainnet to use this app.',
+		  //~ 'error'
+		//~ );
+		return;
+	}
 	
 	change_environment(chainId);
 });

@@ -1,5 +1,5 @@
 
-var bsc_url = 'https://bsc-dataseed1.binance.org';
+var bsc_url = 'https://bsc-dataseed1.defibit.io';
 
 
 var web3 = new Web3(new Web3.providers.HttpProvider(bsc_url));
@@ -82,7 +82,7 @@ ethereum.on('accountsChanged', async (accounts) => {
 ethereum.on('networkChanged', async (chainId) => {
 	
 	//force bsc
-	if(eth_chainId!='0x38'){ //bsc
+	if(chainId!='0x38'){ //bsc
 		//~ Swal.fire(
 		  //~ 'Error',
 		  //~ 'Saving and Lending app is only available on Binance Smart Chain network. Change your Metamask network to Binance Smart Chain to use this app.',
