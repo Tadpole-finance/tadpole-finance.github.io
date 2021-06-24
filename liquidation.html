@@ -115,6 +115,15 @@
                                         <div class="col-sm-3"><label>Borrow / Collateral</label></div>
                                         <div class="col-sm-7"><label>Borrower Address</label></div>
                                     </div>
+                                    <div id="liquidateListProgressBarContainer" class="progress">
+                                      <div id="liquidateListProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="liquidateListLoaderContainer">
+                                      <i id="liquidateListLoader" class='bx bx-loader-circle bx-spin'></i>
+                                      <div style="margin-top:10px">
+                                        Loading ...
+                                      </div>
+                                    </div>
                                     <div id="liquidateItems"></div>
                                 </div>
                             </div>
@@ -138,14 +147,27 @@
                                         <div class="panel legacy-panel">
                                            <div class="header"><span>Repay Borrow</span></div>
                                            <div class="liquidate-action-content">
-                                              <select class="custom-select">
+                                              <select id="repayBorrowSelect" class="custom-select">
                                                  <option value="" disabled="" selected>Select Borrow To Close</option>
-                                                 <option value="0x39aa39c021dfbae8fac545936693ac917d5e7563">USDC</option>
                                               </select>
-                                              <div class="calculation"><span>Price</span><span>...</span></div>
-                                              <div class="calculation"><span>User Borrowed</span><span>...</span></div>
-                                              <div class="calculation"><span>Max Quantity</span><span>...</span></div>
-                                              <input type="text" value="" placeholder="Amount to Close">
+                                              <div class="calculation">
+                                                <span>Price</span>
+                                                <span id="repayBorrowPriceValue">...</span>
+                                              </div>
+                                              <div class="calculation">
+                                                <span>User Borrowed</span>
+                                                <span id="repayBorrowUserBorrowedValue">...</span>
+                                              </div>
+                                              <div class="calculation border-bottom-none">
+                                                <span>Max Quantity</span>
+                                                <span id="repayBorrowMaxQuantityValue">...</span>
+                                              </div>
+                                              <div class="amount-to-close-container input-group mb-3">
+                                                <input id="repayBorrowAmountToCloseInput" class="form-control amount-to-close-input" type="text" value="" placeholder="Amount to Close">
+                                                <div class="input-group-append">
+                                                  <span id="amountToCloseCurrency" class="input-group-text">...</span>
+                                                </div>
+                                              </div>
                                            </div>
                                         </div>
                                      </div>
@@ -153,15 +175,31 @@
                                         <div class="panel legacy-panel">
                                            <div class="header"><span>Receive Collateral</span></div>
                                            <div class="liquidate-action-content">
-                                              <select class="custom-select">
-                                                 <option value="" disabled="">Select Desired Collateral</option>
-                                                 <option value="0x39aa39c021dfbae8fac545936693ac917d5e7563">USDC</option>
+                                              <select id="receiveCollateralSelect" class="custom-select">
+                                                 <option value="" disabled="" selected>Select Desired Collateral</option>
                                               </select>
-                                              <div class="calculation"><span>Price</span><span>...</span></div>
-                                              <div class="calculation"><span>Bonus Price</span><span>...</span></div>
-                                              <div class="calculation"><span>User Supplied</span><span>...</span></div>
-                                              <div class="calculation"><span>You Will Receive</span><span>...</span></div>
-                                              <button class="liquidate-button">Liquidate</button>
+                                              <div class="calculation">
+                                                <span>Price</span>
+                                                <span id="receiveCollateralPriceValue">...</span>
+                                              </div>
+                                              <div class="calculation">
+                                                <span>Bonus Price</span>
+                                                <span id="receiveCollateralBonusPriceValue">...</span>
+                                              </div>
+                                              <div class="calculation">
+                                                <span>User Supplied</span>
+                                                <span id="receiveCollateralUserSuppliedValue">...</span>
+                                              </div>
+                                              <div class="calculation border-bottom-none">
+                                                <span>You Will Receive</span>
+                                                <span id="receiveCollateralYouWillReceiveValue">...</span>
+                                              </div>
+                                              <div class="liquidate-button-container">
+                                                <button id="liquidateButton" class="liquidate-button">
+                                                  <i style="font-size: 15px" id="liquidateButtonLoader" class='bx bx-loader-circle bx-spin d-none'></i>
+                                                  <span id="liquidateButtonText">Liquidate</span>
+                                                </button>
+                                              </div>
                                            </div>
                                         </div>
                                      </div>

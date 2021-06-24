@@ -2849,7 +2849,7 @@ input[type="text"].form-control:disabled{
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding: 1.33rem 1.995rem;
+    padding: 1.1rem 1.3rem;
     font-size: 1.1rem;
 }
 .legacy-panel .calculation {
@@ -2860,21 +2860,26 @@ input[type="text"].form-control:disabled{
     padding-left: 10px;
     padding: 1.15rem 0.5rem;
 }
-.liquidate-action-container input {
-    border: 1px solid #657786;
-    box-sizing: border-box;
-}
 .legacy-panel .calculation:last-of-type {
     border-bottom: none;
     margin-bottom: 1rem;
 }
+.legacy-panel .calculation.border-bottom-none {
+    border-bottom: none;
+}
 .liquidate-action-content {
     padding: 0 15px 10px 15px;
     margin-top: 20px;
-    margin-bottom: 150px;
+    margin-bottom: 75px;
 }
 .liquidate-action-content .custom-select{
     border: 2px solid #a4cba4;
+}
+.liquidate-button-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 .liquidate-button {
     background-color: #96c46c;
@@ -2884,7 +2889,9 @@ input[type="text"].form-control:disabled{
     border-radius: 3px;
     border-width: 1px;
     border-style: solid;
-    padding: 1.2rem 1.6rem;
+    padding: 1rem 1.8rem;
+    min-width: 135px;
+    min-height: 55px;
     text-align: center;
     font-family: inherit;
     letter-spacing: 1px;
@@ -2894,14 +2901,45 @@ input[type="text"].form-control:disabled{
     text-decoration: none;
     cursor: pointer;
 }
-input {
+.amount-to-close-container {
+    margin-top: 12px;
+    margin-bottom: 10px;
+}
+.amount-to-close-input {
     border: none;
     border-radius: 5px;
     outline: 0;
     width: 100%;
-    padding: 1rem;
+    padding: 0.7rem;
     font-family: inherit;
     color: #141E27;
+    border: 1px solid #ccd6dd;
+    box-sizing: border-box;
+}
+#liquidateListProgressBarContainer {
+    border-radius: 0px;
+    height: 3px;
+}
+@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Firefox */
+@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Webkit */
+@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* IE */
+@keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Opera */
+#liquidateListLoaderContainer {
+    padding-top: 150px;
+    padding-bottom: 150px;
+    text-align: center;
+    -moz-transition:all 0.5s ease-in-out;
+    -webkit-transition:all 0.5s ease-in-out;
+    -o-transition:all 0.5s ease-in-out;
+    -ms-transition:all 0.5s ease-in-out;
+    transition:all 0.5s ease-in-out; 
+    -moz-animation:blink normal 1.5s infinite ease-in-out; /* Firefox */
+    -webkit-animation:blink normal 1.5s infinite ease-in-out; /* Webkit */
+    -ms-animation:blink normal 1.5s infinite ease-in-out; /* IE */
+    animation:blink normal 1.5s infinite ease-in-out; /* Opera */
+}
+#liquidateListLoader {
+    font-size: 45px;
 }
 @media screen and ( max-width: 600px ) {
   .liquidate-container .address {
