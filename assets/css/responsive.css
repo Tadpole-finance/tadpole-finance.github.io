@@ -59,4 +59,10 @@
   .panel-labels {
     font-size: 9px;
   }
+  .legacy-panel {
+    font-size: 9px;
+  }
+  .tadpole-header-logo {
+    height: 20px;
+  }
 }

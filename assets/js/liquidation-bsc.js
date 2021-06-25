@@ -1,55 +1,23 @@
-var placeholderRes =   [
-  {
-    "a": "0x91db6a641a95a1ae25fa090066fdb94d276d816a",
-    "s": "164.85672452"
-  },
-  {
-    "a": "0x85113329ce3231f87aa200fec6b2614be4c7415a",
-    "s": "161.95070931"
-  },
-  {
-    "a": "0x6d6396b3209d1fe83b5606579b7faabd2f427f21",
-    "s": "150.59972827"
-  },
-  {
-    "a": "0x13dd8b8f54c3b54860f8d41a6fbff7ffc6bf01ef",
-    "s": "112.49825767"
-  },
-  {
-    "a": "0x5193df49238ad8df530462beaf2bcba21892c783",
-    "s": "108.22830910"
-  },
-  {
-    "a": "0xd1d62b01017b4687ad63d87ad199c97740c28e2f",
-    "s": "71.95134583"
-  },
-  {
-    "a": "0x785aa1cedc027e83bddbbe6f557f5a0668f2f688",
-    "s": "64.88401184"
-  },
-  {
-    "a": "0x72d62d76edc8aac27a894989d3062dea907e99f3",
-    "s": "61.20528770"
-  },
-  {
-    "a": "0x2fd64ac278ea3bc8974fba3de987ba652fcf5975",
-    "s": "54.33301079"
-  }
-];
+var tadpoleBackendUrl           = "http://localhost:3000/"; // change to backend url
+var underwaterAccountsEndpoint  = "tadpole-backend/api/underwater_accounts";
 
-var tadpoleBackendUrl = "http://34.87.7.63";
 var accountMap  = [];
 var cTokenRates = [];
 var usdPrices   = [];
 var liquidationIncentive = 0;
-var closeFactor = 0;
-var bottomScrolled = false;
-const gasLimitLiquidateBorrow = 710000;
+var closeFactor          = 0;
+const gasLimitLiquidateBorrow      = 710000;
 const gasLimitLiquidateBorrowErc20 = 910000;
+var bottomScrolled = false;
 
 var fetchLiquidateList = async function() {
   // request underwater accounts to backend
-  var underwaterAccountsRes = placeholderRes;
+  var xmlHttp = new XMLHttpRequest();
+  var url = tadpoleBackendUrl + underwaterAccountsEndpoint;
+  xmlHttp.open("GET", url, false);
+  xmlHttp.send(null);
+  var underwaterAccountsRes = JSON.parse(xmlHttp.responseText);
+
   var liquidateItems = [];
   var progress = 25;
 
@@ -67,16 +35,11 @@ var fetchLiquidateList = async function() {
     });
 
     $("#liquidateListProgressBar").css("width", progress+"%");
-    progress += Math.round((i / underwaterAccountsRes.length * 100));
-
-    if (i==5)break;
+    progress += Math.round((0.85 / underwaterAccountsRes.length) * 100);
   }
 
   $('#liquidateListProgressBarContainer').addClass('d-none');
   $('#liquidateListLoaderContainer').addClass('d-none');
-
-  console.log('accountMap: ')
-  console.log(accountMap)
 
   return liquidateItems;
 }
@@ -201,8 +164,8 @@ var resetReceiveCollateralSelect = function() {
 }
 
 var updateReceiveCollateralPanel = function() {
-  var userAddress       = $('#receiveCollateralSelect').val();
-  var currency          = $('#receiveCollateralSelect option:selected').text().toLowerCase();
+  var userAddress = $('#receiveCollateralSelect').val();
+  var currency    = $('#receiveCollateralSelect option:selected').text().toLowerCase();
   if ( currency.length > 5 ) {
     return false;
   }
