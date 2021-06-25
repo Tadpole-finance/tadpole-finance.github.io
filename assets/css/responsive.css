@@ -1,4 +1,4 @@
-#depo-form, #enable-form, #wd-form, #borrow-form, #repay-form{
+#depo-form, #enable-form, #wd-form, #borrow-form, #repay-form, #enableLiquidateForm{
 	max-width: 600px;
 	width: 90%;
 }
@@ -49,5 +49,14 @@
   
   .page-content{
 	padding: 0 24px 60px 24px !important;
+  }
+}
+@media screen and ( max-width: 600px ) {
+  .liquidate-container .address {
+      word-wrap: break-word;
+      font-size: 9px;
+  }
+  .panel-labels {
+    font-size: 9px;
   }
 }

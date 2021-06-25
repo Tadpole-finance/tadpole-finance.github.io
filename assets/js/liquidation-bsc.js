@@ -37,18 +37,21 @@ var placeholderRes =   [
   }
 ];
 
+var tadpoleBackendUrl = "http://34.87.7.63";
 var accountMap  = [];
 var cTokenRates = [];
 var usdPrices   = [];
 var liquidationIncentive = 0;
 var closeFactor = 0;
 var bottomScrolled = false;
+const gasLimitLiquidateBorrow = 710000;
+const gasLimitLiquidateBorrowErc20 = 910000;
 
 var fetchLiquidateList = async function() {
   // request underwater accounts to backend
   var underwaterAccountsRes = placeholderRes;
   var liquidateItems = [];
-  var progress = 0;
+  var progress = 25;
 
   for ( var i = 0; i < underwaterAccountsRes.length; i++ ) {
     var address = underwaterAccountsRes[i].a;
@@ -64,7 +67,7 @@ var fetchLiquidateList = async function() {
     });
 
     $("#liquidateListProgressBar").css("width", progress+"%");
-    progress += Math.round((i / underwaterAccountsRes.length * 100)-2);
+    progress += Math.round((i / underwaterAccountsRes.length * 100));
 
     if (i==5)break;
   }
@@ -232,19 +235,166 @@ var estimateSeizedAsset = function(amountToClose, borrowCurrency, collateralCurr
   return estimateSeizedAmount;
 }
 
-var liquidate = async function() {
+$(document).on('click','#liquidateButton', async function() {
+  // check metamask connection
+  $.magnificPopup.close();
+  if ( !account ) {
+    Swal.fire(
+      'Error',
+      'Connect MetaMask to continue.',
+      'error'
+    )
+    return;
+  }
 
-}
-$(document).on('click','#liquidateButton', function() {
+  // validate input
+  var repayAmountInDecimal = $('#repayBorrowAmountToCloseInput').val();
+  if ( !repayAmountInDecimal || isNaN(repayAmountInDecimal) || repayAmountInDecimal <= 0 ) {
+    Swal.fire(
+      'Error',
+      'Enter valid amount.',
+      'error'
+    )
+    return false;
+  }
+
+  // check allowance, if not approved yet, ask to approve
+  var repayCurrency = $('#repayBorrowSelect option:selected').text().toLowerCase();
+  var cont = ENV.cTokens[repayCurrency];
+
+  if ( cont.id != 'bnb' ) {
+    var token = new web3.eth.Contract(erc20Abi, cont.underlyingAddress);
+    var allowance = await token.methods.allowance(account, cont.address).call();
+    allowance = allowance / Math.pow(10, cont.underlyingDecimals);
+    var needed_allowance = 9999999999;
+    if ( cont.id == 'tad' ) needed_allowance = 500000;
+    if ( allowance < needed_allowance ) { 
+      pop_enable_liquidate(cont);
+      return;
+    }
+  }
+
+  // liquidate
+  liquidateButtonLoading();
+
+  var borrowerAddress = $('#repayBorrowSelect').val();
+  var collateralCurrency = $('#receiveCollateralSelect option:selected').text().toLowerCase();
+  var cTokenCollateral = ENV.cTokens[collateralCurrency].address;
+
+  if ( cont.id == 'bnb' ) { // repay with bnb
+    var cToken =  new web3.eth.Contract(cEtherAbi, cont.address);
+    var repayAmountInRaw = web3.utils.toHex(web3.utils.toWei(repayAmountInDecimal, 'ether'));
+
+    await cToken.methods.liquidateBorrow(borrowerAddress, cTokenCollateral).send({
+      from  : account,
+      gas   : gasLimitLiquidateBorrow,
+      value : repayAmountInRaw
+    }, function(err, result) {
+        if (err) {
+          $.magnificPopup.close();
+          Swal.fire(
+            'Failed',
+            err.message,
+            'error'
+          )
+          liquidateButtonEnable();
+
+        } else {
+          $.magnificPopup.close();
+          Swal.fire(
+            'Transaction Sent',
+            result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+            'success'
+          )
+        }
+    });
+    
+  } else { // repay with tokens
+    var cToken =  new web3.eth.Contract(cErc20Abi, cont.address);
+    var repayAmountInRaw = Math.floor(repayAmountInDecimal * Math.pow(10, cont.underlyingDecimals));
+
+    await cToken.methods.liquidateBorrow(borrowerAddress, numberToString(repayAmountInRaw), cTokenCollateral).send({
+      from  : account,
+      gas   : gasLimitLiquidateBorrowErc20
+    }, function(err, result) {
+        if (err) {
+          $.magnificPopup.close();
+          Swal.fire(
+            'Failed',
+            err.message,
+            'error'
+          )
+          liquidateButtonEnable();
+
+        } else {
+          $.magnificPopup.close();
+          Swal.fire(
+            'Transaction Sent',
+            result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+            'success'
+          )
+        }
+    });
+  }
+
+  liquidateButtonEnable();
+});
+var liquidateButtonLoading = function() {
   $('#liquidateButtonLoader').removeClass('d-none');
   $('#liquidateButtonText').addClass('d-none');
-});
+  $('#liquidateButton').disabled = true;
+}
+var liquidateButtonEnable = function () {
+  $('#liquidateButtonLoader').addClass('d-none');
+  $('#liquidateButtonText').removeClass('d-none');
+  $('#liquidateButton').disabled = false;
+}
+var pop_enable_liquidate = function(cont){
+  $('#enableLiquidateForm .coin_img').attr('src', cont.logo);
+  $('#enableLiquidateForm .val_coin_name').html(cont.name);
+  $('#enableLiquidateForm .coin_btn_lanjut').html('Continue').attr('onclick', 'go_enable_liquidate(\''+cont.id+'\'); return false;');
+  $.magnificPopup.open({
+    items: {
+      src: '#enableLiquidateForm',
+      type: 'inline'
+    },
+    showCloseBtn: false
+  });
+}
+var go_enable_liquidate = async function(id) {
+  var cont = ENV.cTokens[id];
+  
+  $('#enableLiquidateForm .coin_btn_lanjut').html('<span class="mdi mdi-loading mdi-spin"></span> Open MetaMask').attr('onclick', '');
+  
+  var token = new web3.eth.Contract(erc20Abi, cont.underlyingAddress);
+  var raw_amount = 99999999999999999999 * Math.pow(10, cont.underlyingDecimals);
+  if ( id == 'tad' ) raw_amount = 10000000 * Math.pow(10, cont.underlyingDecimals);
+  var allowance = await token.methods.approve(cont.address, numberToString(raw_amount)).send({
+    from : account,
+    gas  : gasLimitApprove
+  }, function(err, result) {
+    if (err) {
+      $.magnificPopup.close();
+      Swal.fire(
+        'Failed',
+        err.message,
+        'error'
+      )
 
+    } else {
+      $.magnificPopup.close();
+      Swal.fire(
+        'Transaction Sent',
+        'Please wait the transaction to be confirmed, then you can start to liquidate.<br /><br />'+result+' <a href="'+ENV.etherscan+'tx/'+result+'" target="_blank"><span class="mdi mdi-open-in-new"></span></a>',
+        'success'
+      )
+    }
+  });
+}
 
 var currencyOptionHtml = function(address, currency) {
   return '<option value="'+address+'">'+currency.toUpperCase()+'</option>';
 }
-
 var getUsdPrices = async function() {
   for ( var cTokenId in ENV.cTokens ) {
     var cToken = ENV.cTokens[cTokenId];
@@ -257,11 +407,20 @@ var getLiquidationIncentive = async function () {
 var getCloseFactor = async function() {
   closeFactor = await ENV.comptrollerContract.methods.closeFactorMantissa().call() / mentissa;
 }
+
 $(function(){
   syncCont();
+  $("#liquidateListProgressBar").css("width", "5%");
+
   getUsdPrices();
+  $("#liquidateListProgressBar").css("width", "10%");
+
   getLiquidationIncentive();
+  $("#liquidateListProgressBar").css("width", "15%");
+
   getCloseFactor();
+  $("#liquidateListProgressBar").css("width", "20%");
+
   loadLiquidateList();
 });
 

@@ -26,7 +26,7 @@ $(function(){
 	  })
 	  .then(data => {
 		document.querySelector("header").innerHTML = data;
-		if(hideMetamask) $('.metamask-container').remove();
+		if ( typeof hideMetamask !== 'undefined' && hideMetamask ) $('.metamask-container').remove();
 	  });
 
 	fetch("./footer.html")

@@ -2870,7 +2870,7 @@ input[type="text"].form-control:disabled{
 .liquidate-action-content {
     padding: 0 15px 10px 15px;
     margin-top: 20px;
-    margin-bottom: 75px;
+    margin-bottom: 10px;
 }
 .liquidate-action-content .custom-select{
     border: 2px solid #a4cba4;
@@ -2900,6 +2900,9 @@ input[type="text"].form-control:disabled{
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
+}
+.liquidate-button:hover {
+    background-color: #9ece72;
 }
 .amount-to-close-container {
     margin-top: 12px;
@@ -2941,12 +2944,4 @@ input[type="text"].form-control:disabled{
 #liquidateListLoader {
     font-size: 45px;
 }
-@media screen and ( max-width: 600px ) {
-  .liquidate-container .address {
-      word-wrap: break-word;
-      font-size: 9px;
-  }
-  .panel-labels {
-    font-size: 9px;
-  }
-}
+
