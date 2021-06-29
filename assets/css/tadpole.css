@@ -2790,3 +2790,158 @@ input[type="text"].form-control:disabled{
 .custom-control-label{
 	cursor: pointer;
 }
+
+.liquidate-container {
+  margin-top: 25px;
+}
+.panel {
+    background: #ffffff;
+    box-shadow: 0px 2px 4px rgb(16 21 24 / 5%);
+    border-radius: 4px;
+    margin-bottom: 1.33rem;
+}
+.panel-labels {
+    display: flex;
+    padding: 15px 18px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    align-items: center;
+    font-size: 12px;
+    color: #9fb0bc;
+}
+.liquidate-info-container {
+    margin-top: 45px;
+}
+.liquidate-container .account {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.25rem 1.75rem;
+    border-left: 2px solid transparent;
+    padding-left: 1.625rem;
+    text-transform: none;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: none;
+    margin: 0;
+    padding: 1.33rem;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+.liquidate-container .warning {
+    color: #DF5F67;
+}
+.liquidate-container .address {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.liquidate-container .account.active {
+    background: #96c46c;
+    color: #ffffff;
+}
+.liquidate-container .account:hover {
+    border-left: 2px solid #96c46c;
+}
+.legacy-panel .header {
+    display: flex;
+    flex-flow: inherit;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1.1rem 1.3rem;
+    font-size: 1.1rem;
+}
+.legacy-panel .calculation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #CCD6DD;
+    padding-left: 10px;
+    padding: 1.15rem 0.5rem;
+}
+.legacy-panel .calculation:last-of-type {
+    border-bottom: none;
+    margin-bottom: 1rem;
+}
+.legacy-panel .calculation.border-bottom-none {
+    border-bottom: none;
+}
+.liquidate-action-content {
+    padding: 0 15px 10px 15px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.liquidate-action-content .custom-select{
+    border: 2px solid #a4cba4;
+}
+.liquidate-button-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+.liquidate-button {
+    background-color: #96c46c;
+    color: #FFFFFF;
+    border-color: #96c46c;
+    display: inline-block;
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 1rem 1.8rem;
+    min-width: 135px;
+    min-height: 55px;
+    text-align: center;
+    font-family: inherit;
+    letter-spacing: 1px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+}
+.liquidate-button:hover {
+    background-color: #9ece72;
+}
+.amount-to-close-container {
+    margin-top: 12px;
+    margin-bottom: 10px;
+}
+.amount-to-close-input {
+    border: none;
+    border-radius: 5px;
+    outline: 0;
+    width: 100%;
+    padding: 0.7rem;
+    font-family: inherit;
+    color: #141E27;
+    border: 1px solid #ccd6dd;
+    box-sizing: border-box;
+}
+#liquidateListProgressBarContainer {
+    border-radius: 0px;
+    height: 3px;
+}
+@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Firefox */
+@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Webkit */
+@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* IE */
+@keyframes blink {0%{opacity:1;} 50%{opacity:0.5;} 100%{opacity:1;}} /* Opera */
+#liquidateListLoaderContainer {
+    padding-top: 150px;
+    padding-bottom: 150px;
+    text-align: center;
+    -moz-transition:all 0.5s ease-in-out;
+    -webkit-transition:all 0.5s ease-in-out;
+    -o-transition:all 0.5s ease-in-out;
+    -ms-transition:all 0.5s ease-in-out;
+    transition:all 0.5s ease-in-out; 
+    -moz-animation:blink normal 1.5s infinite ease-in-out; /* Firefox */
+    -webkit-animation:blink normal 1.5s infinite ease-in-out; /* Webkit */
+    -ms-animation:blink normal 1.5s infinite ease-in-out; /* IE */
+    animation:blink normal 1.5s infinite ease-in-out; /* Opera */
+}
+#liquidateListLoader {
+    font-size: 45px;
+}
+

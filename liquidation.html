@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    
+    
+    
+    <!-- Primary Meta Tags -->
+    <title>Tadpole Finance - Liquidation</title>
+    <meta name="title" content="Tadpole Finance - Liquidation">
+    <meta name="description" content="Decentralized Finance Platform for Saving and Lending Crypto">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tadpole Finance - Liquidation">
+    <meta property="og:description" content="Decentralized Finance Platform for Saving and Lending Crypto">
+    <meta property="og:image" content="assets/images/tadpole-poster-new.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Tadpole Finance - Liquidation">
+    <meta property="twitter:description" content="Decentralized Finance Platform for Saving and Lending Crypto">
+    <meta property="twitter:image" content="assets/images/tadpole-poster-new.jpg">
+
+
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap Css -->
+    <link href="assets/css/bootstrap.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="assets/css/tadpole.css" id="app-style" rel="stylesheet" type="text/css" />
+    
+    <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    
+    <link href="assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css" />
+    <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js" integrity="sha512-/DXTXr6nQodMUiq+IUJYCt2PPOUjrHJ9wFrqpJ3XkgPNOZVfMok7cRw6CSxyCQxXn6ozlESsSh1/sMCTF1rL/g==" crossorigin="anonymous"></script>
+    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    
+    <script src="assets/js/createjs-2015.11.26.min.js"></script>
+    <script src="assets/js/fish-animation.js?3"></script>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.2.6/dist/web3.min.js"></script>
+    <script src="assets/js/bignumber.min.js"></script>
+    <script src="./assets/js/pages.js?1"></script>
+    <script src="assets/js/metamask-bsc.js?3"></script>
+
+    <!-- ABI -->
+    <script src="assets/js/abi/comptroller.js"></script>
+    <script src="assets/js/abi/oracle.js"></script>
+    <script src="assets/js/abi/cerc20.js"></script>
+    <script src="assets/js/abi/cether.js"></script>
+    <script src="assets/js/abi/erc20.js"></script>
+    <!-- -->
+
+    <script src="assets/js/tadpole-bsc.js?7"></script>
+    <script src="assets/js/liquidation-bsc.js?8"></script>
+    
+    <script type="text/javascript">
+        var page = 'liquidation';
+        
+    </script>
+</head>
+
+<body data-layout="horizontal">
+    <canvas id="fishHolder" style="position:absolute; width:100%"></canvas>
+
+<!-- templates -->
+<div id="template_liquidateItem" class="d-none">
+    <div class="liquidateItem account row">
+        <div class="totalBorrow col-sm-2"></div>
+        <div class="shortfallIndex col-sm-3 warning"></div>
+        <div class="borrowerAddress col-sm-7 address"></div>
+    </div>
+</div>
+<div class="card mfp-hide mfp-popup-form mx-auto" id="enableLiquidateForm">
+  <div class="card-body">
+    <center><img src="" class="mb-2 coin_img" />
+      <h4 class="mt-0 mb-4">Approve <span class="val_coin_name"></span></h4>
+    </center>
+    <div class="row mb-4">
+      <div class="col-lg-12">
+        To liquidate, you must give a permission to
+        the Tadpole smart contract using MetaMask.
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div>
+          <button class="btn btn-primary btn-block coin_btn_lanjut">Continue</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- templates end -->    
+    
+    <div class="container-fluid">
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+
+            <header id="page-topbar">
+            </header>
+
+
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+            <div class="main-content">
+
+                <div class="page-content">
+
+                    <!-- start page title -->
+                    <div class="row row-upper">
+                        <div class="col-12">
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="col-xl-12">
+                        <div class="liquidate-container">
+                            <div id="top" class="container">
+                                <div class="panel">
+                                    <div class="panel-labels">
+                                        <div class="col-sm-2"><label>Total Borrowed</label></div>
+                                        <div class="col-sm-3"><label>Borrow / Collateral</label></div>
+                                        <div class="col-sm-7"><label>Borrower Address</label></div>
+                                    </div>
+                                    <div id="liquidateListProgressBarContainer" class="progress">
+                                      <div id="liquidateListProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="liquidateListLoaderContainer">
+                                      <i id="liquidateListLoader" class='bx bx-loader-circle bx-spin'></i>
+                                      <div style="margin-top:10px">
+                                        Loading ...
+                                      </div>
+                                    </div>
+                                    <div id="liquidateItems"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="liquidate-info-container">
+                            <div id="top" class="container">
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-11 ">
+                                        <h4 class="title">Liquidate At-Risk Positions</h4>
+                                        <p>By closing at-risk borrowing positions, you will receive discounted collateral. Select an account to see more.</p>
+                                        <br/><br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="liquidate-action-container d-none">
+                            <div class="container">
+                               <div class="container">
+                                  <div class="row">
+                                     <div class="col-sm-6">
+                                        <div class="panel legacy-panel">
+                                           <div class="header"><span>Repay Borrow</span></div>
+                                           <div class="liquidate-action-content">
+                                              <select id="repayBorrowSelect" class="custom-select">
+                                                 <option value="" disabled="" selected>Select Borrow To Close</option>
+                                              </select>
+                                              <div class="calculation">
+                                                <span>Price</span>
+                                                <span id="repayBorrowPriceValue">...</span>
+                                              </div>
+                                              <div class="calculation">
+                                                <span>User Borrowed</span>
+                                                <span id="repayBorrowUserBorrowedValue">...</span>
+                                              </div>
+                                              <div class="calculation border-bottom-none">
+                                                <span>Max Quantity</span>
+                                                <span id="repayBorrowMaxQuantityValue">...</span>
+                                              </div>
+                                              <div class="amount-to-close-container input-group mb-3">
+                                                <input id="repayBorrowAmountToCloseInput" class="form-control amount-to-close-input" type="text" value="" placeholder="Amount to Close">
+                                                <div class="input-group-append">
+                                                  <span id="amountToCloseCurrency" class="input-group-text">...</span>
+                                                </div>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                     <div class="col-sm-6">
+                                        <div class="panel legacy-panel">
+                                           <div class="header"><span>Receive Collateral</span></div>
+                                           <div class="liquidate-action-content">
+                                              <select id="receiveCollateralSelect" class="custom-select">
+                                                 <option value="" disabled="" selected>Select Desired Collateral</option>
+                                              </select>
+                                              <div class="calculation">
+                                                <span>Price</span>
+                                                <span id="receiveCollateralPriceValue">...</span>
+                                              </div>
+                                              <div class="calculation">
+                                                <span>Bonus Price</span>
+                                                <span id="receiveCollateralBonusPriceValue">...</span>
+                                              </div>
+                                              <div class="calculation">
+                                                <span>User Supplied</span>
+                                                <span id="receiveCollateralUserSuppliedValue">...</span>
+                                              </div>
+                                              <div class="calculation border-bottom-none">
+                                                <span>You Will Receive</span>
+                                                <span id="receiveCollateralYouWillReceiveValue">...</span>
+                                              </div>
+                                              <div class="liquidate-button-container">
+                                                <button id="liquidateButton" class="liquidate-button">
+                                                  <i style="font-size: 15px" id="liquidateButtonLoader" class='bx bx-loader-circle bx-spin d-none'></i>
+                                                  <span id="liquidateButtonText">Liquidate</span>
+                                                </button>
+                                              </div>
+                                           </div>
+                                        </div>
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- End Page-content -->
+
+                <footer class="footer">
+                </footer>
+            </div>
+            <!-- end main content-->
+
+        </div>
+        <!-- END layout-wrapper -->
+
+    </div>
+    <!-- end container-fluid -->
+    
+    
+
+</body>
+</html>
