@@ -1,6 +1,77 @@
 var tadpoleBackendUrl           = "http://localhost:3000/"; // change to backend url
 var underwaterAccountsEndpoint  = "tadpole-backend/api/underwater_accounts";
 
+var placeholderRes = [
+  {
+    "a": "0x16dfceabb08a4f0deffc28b8d7bea29ee120cab7",
+    "s": "27385.14089530"
+  },
+  {
+    "a": "0x45c544fd99166b4a41a2afa7633e224ac1ed2d67",
+    "s": "25125.55700935"
+  },
+  {
+    "a": "0x807f6ac692d3f9b135000681ac6a1646f2c9db39",
+    "s": "372.53229096"
+  },
+  {
+    "a": "0x1d85fd0bd1805aae7da112232a222c35c91e946e",
+    "s": "315.30001311"
+  },
+  {
+    "a": "0x6e059f5eaabe83dca7f18712a476c35a4f2b6bd7",
+    "s": "240.34423118"
+  },
+  {
+    "a": "0x1d70b26186047192db503a1b21bc92384688e186",
+    "s": "215.19033341"
+  },
+  {
+    "a": "0xeed3838d3a170d0426be97ee94012d1d0547cedb",
+    "s": "192.13500673"
+  },
+  {
+    "a": "0x9061327082fb027c52442e0712ae45dc9dcf9d40",
+    "s": "190.82796208"
+  },
+  {
+    "a": "0xc36d68e197f7a31729388f281f14d0e7a6dc6875",
+    "s": "177.33876601"
+  },
+  {
+    "a": "0x91db6a641a95a1ae25fa090066fdb94d276d816a",
+    "s": "174.97922082"
+  },
+  {
+    "a": "0x85113329ce3231f87aa200fec6b2614be4c7415a",
+    "s": "174.13703437"
+  },
+  {
+    "a": "0x6d6396b3209d1fe83b5606579b7faabd2f427f21",
+    "s": "155.86987804"
+  },
+  {
+    "a": "0x13dd8b8f54c3b54860f8d41a6fbff7ffc6bf01ef",
+    "s": "127.15294733"
+  },
+  {
+    "a": "0x5193df49238ad8df530462beaf2bcba21892c783",
+    "s": "118.46046763"
+  },
+  {
+    "a": "0x785aa1cedc027e83bddbbe6f557f5a0668f2f688",
+    "s": "67.01359517"
+  },
+  {
+    "a": "0x72d62d76edc8aac27a894989d3062dea907e99f3",
+    "s": "63.21532830"
+  },
+  {
+    "a": "0x2fd64ac278ea3bc8974fba3de987ba652fcf5975",
+    "s": "56.17077231"
+  }
+];
+
 var accountMap  = [];
 var cTokenRates = [];
 var usdPrices   = [];
@@ -12,11 +83,13 @@ var bottomScrolled = false;
 
 var fetchLiquidateList = async function() {
   // request underwater accounts to backend
-  var xmlHttp = new XMLHttpRequest();
-  var url = tadpoleBackendUrl + underwaterAccountsEndpoint;
-  xmlHttp.open("GET", url, false);
-  xmlHttp.send(null);
-  var underwaterAccountsRes = JSON.parse(xmlHttp.responseText);
+  // var xmlHttp = new XMLHttpRequest();
+  // var url = tadpoleBackendUrl + underwaterAccountsEndpoint;
+  // xmlHttp.open("GET", url, false);
+  // xmlHttp.send(null);
+  // var underwaterAccountsRes = JSON.parse(xmlHttp.responseText);
+
+  var underwaterAccountsRes = placeholderRes;
 
   var liquidateItems = [];
   var progress = 25;
