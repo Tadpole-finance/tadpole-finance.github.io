@@ -1,5 +1,5 @@
-var tadpoleBackendUrl           = "http://localhost:3000/"; // change to backend url
-var underwaterAccountsEndpoint  = "tadpole-backend/api/underwater_accounts";
+var tadpoleBackendUrl           = "https://api.tadpole.finance/"; // change to backend url
+var underwaterAccountsEndpoint  = "api/underwater_accounts";
 
 var accountMap  = [];
 var cTokenRates = [];
@@ -101,8 +101,8 @@ var loadLiquidateList = async function() {
 
         // scroll to bottom of page
         if ( !bottomScrolled ) {
-          window.scroll({top: 1000, left: 0, behavior: 'smooth' });
-          bottomScrolled = true;
+          window.scroll({top: 3000, left: 0, behavior: 'smooth' });
+          // bottomScrolled = true;
         }
 
         handleRepayBorrowSelect(item);
