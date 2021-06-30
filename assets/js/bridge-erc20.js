@@ -283,7 +283,7 @@ var addTadToMetamask = async function(){
 		address: ENV.tadAddress, // The address that the token is at.
 		symbol: 'TAD', // A ticker symbol or shorthand, up to 5 chars.
 		decimals: 18, // The number of decimals in the token
-		image: 'http://tadpole.finance/assets/images/new-logo/Logo-Tadpole-128x128px.png', // A string url of the token logo
+		image: 'http://app.tadpole.finance/assets/images/new-logo/Logo-Tadpole-128x128px.png', // A string url of the token logo
 	  },
 	},
 	});
