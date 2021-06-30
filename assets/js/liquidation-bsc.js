@@ -101,8 +101,8 @@ var loadLiquidateList = async function() {
 
         // scroll to bottom of page
         if ( !bottomScrolled ) {
-          window.scroll({top: 1000, left: 0, behavior: 'smooth' });
-          bottomScrolled = true;
+          window.scroll({top: 3000, left: 0, behavior: 'smooth' });
+          // bottomScrolled = true;
         }
 
         handleRepayBorrowSelect(item);
