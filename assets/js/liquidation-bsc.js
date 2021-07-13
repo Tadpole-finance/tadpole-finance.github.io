@@ -1,5 +1,5 @@
 var tadpoleBackendUrl           = "https://api.tadpole.finance/"; // change to backend url
-var underwaterAccountsEndpoint  = "api/underwater_accounts";
+var underwaterAccountsEndpoint  = "api/underwater_accounts/1";
 
 var accountMap  = [];
 var cTokenRates = [];
@@ -22,17 +22,15 @@ var fetchLiquidateList = async function() {
   var progress = 25;
 
   for ( var i = 0; i < underwaterAccountsRes.length; i++ ) {
-    var address = underwaterAccountsRes[i].a;
-
-    await syncBorrowAccount(underwaterAccountsRes[i]);
-
-    var shortfallIndex = accountMap[address].totalBorrowInUsd / accountMap[address].totalCollateralInUsd;
-
-    liquidateItems.push({
-      'totalBorrow'       : accountMap[address].totalBorrowInUsd.toFixed(2),
-      'shortfallIndex'    : shortfallIndex.toFixed(2),
-      'borrowerAddress'   : address
-    });
+    var address = underwaterAccountsRes[i].address;
+    var shortfallIndex = parseFloat(underwaterAccountsRes[i].total_borrow) / parseFloat(underwaterAccountsRes[i].total_collateral);
+    if ( shortfallIndex >= 1 ) {
+      liquidateItems.push({
+        'totalBorrow'       : parseFloat(underwaterAccountsRes[i].total_borrow).toFixed(2),
+        'shortfallIndex'    : parseFloat(shortfallIndex).toFixed(2),
+        'borrowerAddress'   : address
+      });
+    }
 
     $("#liquidateListProgressBar").css("width", progress+"%");
     progress += Math.round((0.85 / underwaterAccountsRes.length) * 100);
@@ -41,16 +39,17 @@ var fetchLiquidateList = async function() {
   $('#liquidateListProgressBarContainer').addClass('d-none');
   $('#liquidateListLoaderContainer').addClass('d-none');
 
+  if ( liquidateItems.length <= 0 ) {
+    $('#noDataContainer').removeClass('d-none');
+  }
+
   return liquidateItems;
 }
 
-var syncBorrowAccount = async function(underwaterAccount) {
-  var address   = underwaterAccount.a;
-  var shortfall = underwaterAccount.s;
+var syncBorrowAccount = async function(address) {
   accountMap[address] = new Object();
   accountMap[address].totalBorrowInUsd     = 0;
   accountMap[address].totalCollateralInUsd = 0;
-  accountMap[address].shortfall            = shortfall;
 
   for ( var cTokenId in ENV.cTokens ) {
     var cToken = ENV.cTokens[cTokenId];
@@ -92,21 +91,33 @@ var loadLiquidateList = async function() {
     $(html).find('.shortfallIndex').html(item.shortfallIndex);
     $(html).find('.borrowerAddress').html(item.borrowerAddress);
     
-    $(html).click(function(e){
+    $(html).click(async function(e){
+        $('.liquidate-info-container').addClass('d-none');
+        $('.liquidate-action-container').removeClass('d-none');
+
+        // highlight selection
         $('.liquidateItem').removeClass('active');
         $(e.target).closest('.liquidateItem').addClass('active');
 
-        $('.liquidate-info-container').addClass('d-none');
-        $('.liquidate-action-container').removeClass('d-none');
+        // hide liquidate select content
+        $('.liquidate-action-container').addClass('transparent');
+        $('#liquidateContentLoader').removeClass('d-none');
 
         // scroll to bottom of page
         if ( !bottomScrolled ) {
           window.scroll({top: 3000, left: 0, behavior: 'smooth' });
-          // bottomScrolled = true;
         }
 
+        // sync borrow account
+        if (!accountMap[item.borrowerAddress]) {
+          await syncBorrowAccount(item.borrowerAddress);
+        }
         handleRepayBorrowSelect(item);
         handleReceiveCollateralSelect(item);
+
+        // show liquidate select content
+        $('.liquidate-action-container').removeClass('transparent');
+        $('#liquidateContentLoader').addClass('d-none');
     });
     
     $('#liquidateItems').append(html);
@@ -119,7 +130,13 @@ var handleRepayBorrowSelect = function(item) {
   for ( var cTokenId in ENV.cTokens ) {
     var borrowBalance = accountMap[item.borrowerAddress][cTokenId].borrowBalance;
     if ( borrowBalance > 0 && borrowBalance.toFixed(3) != "0.000" ) {
-      $('#repayBorrowSelect').append(currencyOptionHtml(item.borrowerAddress, cTokenId));
+      var append = true;
+      if ( cTokenId == "bnb" && borrowBalance < 0.008 ) {
+        append = false;
+      }
+      if ( append ) {
+        $('#repayBorrowSelect').append(currencyOptionHtml(item.borrowerAddress, cTokenId));
+      }
     }
   }
 }
@@ -134,7 +151,7 @@ $(document).on('change','#repayBorrowSelect',function(){
   var userAddress   = $(this).val();
   var currency      = $('#repayBorrowSelect option:selected').text().toLowerCase();
   var borrowBalance = accountMap[userAddress][currency].borrowBalance;
-  var maxQuantity   = borrowBalance * closeFactor;
+  var maxQuantity   = calculateMaxQuantity(userAddress, currency, borrowBalance);
   $('#repayBorrowPriceValue').html("$"+usdPrices[currency].toFixed(3));
   $('#repayBorrowUserBorrowedValue').html(borrowBalance.toFixed(3)+" "+currency.toUpperCase());
   $('#repayBorrowMaxQuantityValue').html(maxQuantity.toFixed(3)+" "+currency.toUpperCase());
@@ -144,6 +161,24 @@ $(document).on('change','#repayBorrowSelect',function(){
   $("#receiveCollateralSelect").val($("#receiveCollateralSelect option:first").val());
   $("#receiveCollateralSelect").change();
 });
+
+var calculateMaxQuantity = function(userAddress, borrowCurrency, borrowBalance) {
+  var maxQuantity = borrowBalance * closeFactor;
+  var supplyCurrency = $('#receiveCollateralSelect option:selected').text().toLowerCase();
+  var supplyCurrencyVal = $('#receiveCollateralSelect option:selected').val();
+  if ( supplyCurrency && supplyCurrencyVal ) {
+    var supplyBalance = accountMap[userAddress][supplyCurrency].underlyingBalance;
+
+    var borrowBalanceInUsd = borrowBalance * closeFactor * usdPrices[borrowCurrency];
+    var supplyBalanceInUsd = supplyBalance * usdPrices[supplyCurrency];
+
+    if ( borrowBalanceInUsd > supplyBalanceInUsd ) {
+      maxQuantity = supplyBalanceInUsd * closeFactor / usdPrices[borrowCurrency];
+      maxQuantity -= 0.001;
+    }
+  }
+  return maxQuantity;
+}
 
 
 var handleReceiveCollateralSelect = function(item) {
@@ -182,6 +217,12 @@ var updateReceiveCollateralPanel = function() {
   $('#receiveCollateralBonusPriceValue').html("$"+bonusPrice.toFixed(3)+" ("+(bonusRate*100).toFixed(2)+"%)");
   $('#receiveCollateralUserSuppliedValue').html(underlyingBalance.toFixed(3)+" "+currency.toUpperCase());
   $('#receiveCollateralYouWillReceiveValue').html(parseFloat(youWillReceive).toFixed(3)+" "+currency.toUpperCase());
+
+  // recalculate max quantity
+  var borrowBalance = accountMap[userAddress][borrowCurrency].borrowBalance;
+  var maxQuantity = calculateMaxQuantity(userAddress, borrowCurrency, borrowBalance);
+  $('#repayBorrowMaxQuantityValue').html(maxQuantity.toFixed(3)+" "+borrowCurrency.toUpperCase());
+
 }
 $(document).on('change','#receiveCollateralSelect, #repayBorrowAmountToCloseInput', updateReceiveCollateralPanel);
 $(document).on('keyup','#repayBorrowAmountToCloseInput', updateReceiveCollateralPanel);
@@ -306,6 +347,7 @@ var liquidateButtonLoading = function() {
   $('#liquidateButtonLoader').removeClass('d-none');
   $('#liquidateButtonText').addClass('d-none');
   $('#liquidateButton').disabled = true;
+  setTimeout(liquidateButtonEnable, 30000);
 }
 var liquidateButtonEnable = function () {
   $('#liquidateButtonLoader').addClass('d-none');

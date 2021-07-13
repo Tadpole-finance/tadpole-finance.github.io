@@ -139,9 +139,15 @@
                                       <div id="liquidateListProgressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div id="liquidateListLoaderContainer">
-                                      <i id="liquidateListLoader" class='bx bx-loader-circle bx-spin'></i>
+                                      <i id="liquidateListLoader" class='bx bx-loader-circle bx-spin big-icon'></i>
                                       <div style="margin-top:10px">
-                                        Please wait, loading can take up to 5 minutes ...
+                                        Loading ...
+                                      </div>
+                                    </div>
+                                    <div id="noDataContainer" class="d-none">
+                                      <i style="color:#96c46c;" class='bx bx-check big-icon'></i>
+                                      <div style="margin-top:10px">
+                                        No underwater accounts.
                                       </div>
                                     </div>
                                     <div id="liquidateItems"></div>
@@ -159,6 +165,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div id="liquidateContentLoader" 
+                          class="col-sm-12 d-none" >
+                          <i class='bx bx-loader-circle bx-spin big-icon'></i>
                         </div>
                         <div class="liquidate-action-container d-none">
                             <div class="container">
@@ -217,7 +227,7 @@
                                               </div>
                                               <div class="liquidate-button-container">
                                                 <button id="liquidateButton" class="liquidate-button">
-                                                  <i style="font-size: 15px" id="liquidateButtonLoader" class='bx bx-loader-circle bx-spin d-none'></i>
+                                                  <i style="font-size: 15px" id="liquidateButtonLoader" class='bx bx-loader-alt bx-spin d-none'></i>
                                                   <span id="liquidateButtonText">Liquidate</span>
                                                 </button>
                                               </div>
