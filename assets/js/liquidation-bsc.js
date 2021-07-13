@@ -1,4 +1,4 @@
-var tadpoleBackendUrl           = "https://api.tadpole.finance/stage/tadpole-backend/"; // change to backend url
+var tadpoleBackendUrl           = "https://api.tadpole.finance/"; // change to backend url
 var underwaterAccountsEndpoint  = "api/underwater_accounts/1";
 
 var accountMap  = [];
