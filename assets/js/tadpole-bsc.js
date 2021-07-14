@@ -82,9 +82,8 @@ change_environment = function(chainId){
 	return true;
 }
 
-var syncCont = function(){
-	
-	if(page!='main') return;
+var syncCont = function(){	
+	if ( page != 'main' && page != 'liquidation' ) return;
 	
 	ENV = _MAINNET_ENV;
 	
@@ -107,8 +106,7 @@ async function asyncForEach(array, callback) {
 }
 
 var syncRate = function(){
-	
-	if(page!='main') return;
+	if ( page != 'main' && page != 'liquidation' ) return;
 	
 	ENV = _MAINNET_ENV;
 	
