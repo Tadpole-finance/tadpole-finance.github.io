@@ -95,7 +95,7 @@ var syncCont = function(){
 	});
 }
 
-const blocksPerDay = 4 * 60 * 24;
+const blocksPerDay = 12 * 60 * 24;
 const daysPerYear = 365;
 const mentissa = 1e18;
 
