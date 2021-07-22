@@ -174,8 +174,9 @@ var calculateMaxQuantity = function(userAddress, borrowCurrency, borrowBalance) 
 
     if ( borrowBalanceInUsd > supplyBalanceInUsd ) {
       maxQuantity = supplyBalanceInUsd * closeFactor / usdPrices[borrowCurrency];
-      maxQuantity -= 0.001;
+      maxQuantity = Math.floor(maxQuantity * 1000) / 1000;
     }
+    maxQuantity -= 0.001;
   }
   return maxQuantity;
 }
